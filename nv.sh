@@ -6,7 +6,7 @@ case "$OSTYPE" in
 		editor=mvim
 		;;
 	*) 
-		note_path=~/Dropbox/_notes
+		note_path=~/_notes
 		editor=vim
 		;;
 esac
