@@ -2,7 +2,8 @@
 # Daniel Kim (otter.pro): load vim after cd into dropbox/notes
 case "$OSTYPE" in
 	darwin*) 
-		note_path=~/Dropbox/_notes
+		#note_path=~/Dropbox/_notes
+		note_path=/Volumes/Samsung128/Dropbox/_notes
 		editor=mvim
 		;;
 	*) 
