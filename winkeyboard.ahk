@@ -6,14 +6,15 @@
 ; SharpKeys: Remap Left Alt to Right Control!!!
 ;   remap CapsLock to Left Control (Optional)
 
-#SingleInstance Force ; SingleInstance makes the script automatically reload.
+#SingleInstance Force ; SingleInstance makes the script automatically reload?.
+; make sure only one instance of this script is running!!!
 
 ; Reason we can't map All Alt to CTRL is that CTRL-C,V,X,A,Z is special and 
 ; they can mess up terminal.  We want to actually copy and paste when pressing 
 ; ALT vs the real CTRL key.
 ; Possible Solution: 
 
-; LCtrl & Tab:: AltTab
+; LCtrl & Tab:: AltTab -- this doesn't work in Admin mode in PS, CMD.exe
 RCtrl & tab:: AltTab
 $>!`::Send ^{tab} 
 
@@ -66,10 +67,7 @@ $>^+G::Send {Shift Down}{F3}{Shift Up}
 ;$!q::Send {Alt Down}{F4}{Alt Up} ; doesn't work see {below}'
 $>^q::Send !{f4}
 
-
 ; this could also be Ctrl+F4, but not sure which one is more compatible
-
-
 
 ; Alt+ uparrow => Ctrl+Home / go to top of document
 ; Alt+ downarrow => Ctrl+End / go to bottom of document
@@ -80,11 +78,32 @@ RCtrl & down::Send ^{end}
 RCtrl & left::Send {home} 
 RCtrl & right::Send {end} 
 ;
-
 ; hotkey for Everything (currently set to Win+Shift+F)
 ;$<!{space}::Send {LWin}{Alt}{Space}
 ;LAlt & space:: Send {Alt Down}#{space}{Alt Up} ;works, but could it be recursive?
 RCtrl & space::Send #F
 
-; test only
-;$<!m::Send !{space}
+;===========================================================================
+; App-specific
+;===========================================================================
+;
+; Vim, GVim
+#IfWinActive ahk_class Vim
+$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+; better paste, works with terminal, but doesn't work with Explorer
+$>^v::Send {Shift down}{Insert}{Shift Up} 
+$>^x::Send {Shift Down}{Del}{Shift Up}
+;#space::MsgBox "Pressed Win+Space in VIM"
+
+; Mintty, Cygwin, 
+#IfWinActive ahk_class mintty
+$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+; better paste, works with terminal, but doesn't work with Explorer
+$>^v::Send {Shift down}{Insert}{Shift Up} 
+$>^x::Send {Shift Down}{Del}{Shift Up}
+;#space::MsgBox "Pressed Win+Space in Mintty"
+;  
+#IfWinActive
+; Nothing else below
+
+
