@@ -1,6 +1,16 @@
-Write-Host "windows setup"
+Write-Host "windows user's personal setup"
 # MYVIMRC="C:\cygwin64\home\Dkim"
 # [Environment]::SetEnvironmentVariable("MYVIMRC", "C:\Cygwin64\home\$env:username", "User")
+
+#===========================================================================
+# create symbolic link for PS profile (includes aliases, etc)
+#===========================================================================
+#original intent: 
+#   New-Item -path $profile -ItemType SymbolicLink -Value C:\cygwin64\home\DKim\bin\Microsoft.PowerShell_profile.ps1
+if (!(Test-Path -Path $profile)) { 
+    Write-Host "creating symbolic link for PS profile"
+    New-Item -path $profile -ItemType SymbolicLink -Value "$PSScriptRoot\Microsoft.PowerShell_profile.ps1"
+}
 
 #===========================================================================
 # Explorer: show Hidden files and show all extensions

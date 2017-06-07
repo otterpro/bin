@@ -77,11 +77,7 @@ RCtrl & up::Send ^{home}
 RCtrl & down::Send ^{end} 
 RCtrl & left::Send {home} 
 RCtrl & right::Send {end} 
-;
-; hotkey for Everything (currently set to Win+Shift+F)
-;$<!{space}::Send {LWin}{Alt}{Space}
-;LAlt & space:: Send {Alt Down}#{space}{Alt Up} ;works, but could it be recursive?
-RCtrl & space::Send #F
+
 
 ;===========================================================================
 ; App-specific
@@ -102,7 +98,12 @@ $>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
 $>^v::Send {Shift down}{Insert}{Shift Up} 
 $>^x::Send {Shift Down}{Del}{Shift Up}
 ;#space::MsgBox "Pressed Win+Space in Mintty"
-;  
+  
+; Everything Search App
+; Currently hotkey not needed, and using Wox (front-end to Everything) instead
+; hotkey for Everything (currently set to Win+Shift+F)
+; RCtrl & space::Send #F
+
 #IfWinActive
 ; Nothing else below
 
