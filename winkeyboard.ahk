@@ -14,6 +14,7 @@
 #SingleInstance Force ; SingleInstance makes the script automatically reload?.
 ; make sure only one instance of this script is running!!!
 
+;[PAUSE/BREAK]
 ; Pressing Pause/Break will toggle AHK script 
 ; Useful when you want to quickly switch off AHK, esp when you want to share 
 ; the keyboard with someone else
@@ -29,8 +30,10 @@ Pause::Suspend
 RCtrl & tab:: AltTab
 
 ; TODO: not sure whether to use LAlt or RAlt???
+; DOES NOT WORK!!!
 ; Right Alt
-$>!`::Send ^{tab} 
+; VistaSwitcher can do this.  
+; $>!`::Send ^{tab} 
 
 ; Ctrl+Tab, Shift+Tab - 
 ; above works in Chrome, but not well in Visual Code (it releases the ctrl key)
@@ -42,6 +45,7 @@ $>!`::Send ^{tab}
 ; although the 3rd party app "VistaSwitch" can do this.
 
 ; Chrome tab 
+; [CTRL]+[]] and [CTRL]+[[]
 ; Mac: Cmd+Shift+] or [ go to next/prev tabs
 ; Win: Ctrl+Tab, Ctrl+Shift+Tab
 ^+]::Send ^{Tab}
@@ -74,10 +78,13 @@ $>!`::Send ^{tab}
 ;$>^x::Send {Shift Down}{Del}{Shift Up}
 
 ; Find and Find Next/prev
+; [CTRL]+[g]
 $>^g::Send {F3}
+; [CTRL]+[G]
 $>^+G::Send {Shift Down}{F3}{Shift Up}
 
 ; Quit 
+; [CTRL]+[q]
 ; Alt+F4  OR Alt+Space C
 ;$!q::Send {Alt Down}{F4}{Alt Up} ; doesn't work see {below}'
 $>^q::Send !{f4}
@@ -91,6 +98,8 @@ $>^q::Send !{f4}
 RCtrl & up::Send ^{home}  
 RCtrl & down::Send ^{end} 
 RCtrl & left::
+    ; default Win: LCtrl+Win+arrow = switch desk space
+    ; I want Mac style, where it is CMD+LAlt+Arrow
     ; mimic Mac's desktop move. Win + RCtrl + left = same as Win+LCtrl+left
     ; Mac = CMd+Alt+left.   Win = WIn+Ctrl+left
     if (GetKeyState("LWin")) {
@@ -103,11 +112,13 @@ RCtrl & left::
     }
 return
 RCtrl & right::
+    ; default Win: LCtrl+Win+arrow = switch desk space
+    ; I want Mac style, where it is CMD+LAlt+Arrow
     ; mimic Mac's desktop move. Win + RCtrl + Right = same as Win+LCtrl+Right
     ; Mac = CMd+Alt+Right.   Win = WIn+Ctrl+Right
     if (GetKeyState("LWin")) {
         Send <#^{right}
-    }
+}
     ; mimic Mac's Cmd+Arrow (end of line)
     ; WIn's Ctrl+arrow = only word at a time
     else {
@@ -115,20 +126,6 @@ RCtrl & right::
     }
 return
 
-; Desk spaces
-; TODO: not easy to do AltTab style 
-; default Win: LCtrl+Win+arrow = switch desk space
-; I want Mac style, where it is CMD+LAlt+Arrow
-; Works
-;Rctrl & LWin:: Return
-;LWin & RCtrl::Send ^#
-;;Rctrl & LWin::
-; *RCtrl & right::
-;     MsgBox 0,hello, "You pressed %A_ThisHotKey%", 1
-;     if (GetKeyState("Right")) {
-;         MsgBox 0,hello, "You pressed %A_ThisHotKey%", 1
-;     }
-; Return
 
 
 
