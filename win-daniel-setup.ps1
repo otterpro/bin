@@ -2,15 +2,25 @@ Write-Host "windows user's personal setup"
 # MYVIMRC="C:\cygwin64\home\Dkim"
 # [Environment]::SetEnvironmentVariable("MYVIMRC", "C:\Cygwin64\home\$env:username", "User")
 
+# Must cd into install/dotfiles/bin folder (haven't decided where to put this)
 #===========================================================================
-# create symbolic link for PS profile (includes aliases, etc)
+# Chocolatey
 #===========================================================================
-#original intent: 
-#   New-Item -path $profile -ItemType SymbolicLink -Value C:\cygwin64\home\DKim\bin\Microsoft.PowerShell_profile.ps1
-if (!(Test-Path -Path $profile)) { 
-    Write-Host "creating symbolic link for PS profile"
-    New-Item -path $profile -ItemType SymbolicLink -Value "$PSScriptRoot\Microsoft.PowerShell_profile.ps1"
+if (!($env:ChocolateyInstall)) {  #if choco is not installed
+
+    # ensure ExecutionPolicy to either AllSigned or Bypass
+    Set-ExecutionPolicy -ExecutionPolicy AllSigned
+
+    # install and update choco
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+    choco upgrade chocolatey -y
+
+    # Base
+    choco install git -y
+    choco install git-credential-winstore -y
+    choco install poshgit -y
 }
+
 
 #===========================================================================
 # Explorer: show Hidden files and show all extensions
@@ -43,4 +53,21 @@ if (!$propValue) {  #if reg value doesn't exist
     $binValues = "00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,1d,e0,38,00,00,00,00,00"
     $hexified = $binValues.Split(',') | % { "0x$_"}
     New-ItemProperty -Path $key -Name $attribute -PropertyType Binary -Value ([byte[]]$hexified)
+}
+
+# TODO: git clone my dotfiles and cd into that folder 
+# then do the following
+
+
+
+#===========================================================================
+# create symbolic link for PS profile (includes aliases, etc)
+#===========================================================================
+# assuming my dotfiles have been installed!
+
+#original intent: 
+#   New-Item -path $profile -ItemType SymbolicLink -Value C:\cygwin64\home\DKim\bin\Microsoft.PowerShell_profile.ps1
+if (!(Test-Path -Path $profile)) { 
+    Write-Host "creating symbolic link for PS profile"
+    New-Item -path $profile -ItemType SymbolicLink -Value "$PSScriptRoot\Microsoft.PowerShell_profile.ps1"
 }

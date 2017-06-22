@@ -1,3 +1,8 @@
+; $ = hook, prevent circular reference?
+; ! = ALT
+; ^ = CTRL
+; # = windows key
+
 ; In Windows, ALT key is rarely used, but it is also one of the most useful
 ; keys.  Also thumb is the strongest finger. Pinkie is the weakest.
 
@@ -9,13 +14,22 @@
 #SingleInstance Force ; SingleInstance makes the script automatically reload?.
 ; make sure only one instance of this script is running!!!
 
+; Pressing Pause/Break will toggle AHK script 
+; Useful when you want to quickly switch off AHK, esp when you want to share 
+; the keyboard with someone else
+Pause::Suspend
+
 ; Reason we can't map All Alt to CTRL is that CTRL-C,V,X,A,Z is special and 
 ; they can mess up terminal.  We want to actually copy and paste when pressing 
 ; ALT vs the real CTRL key.
 ; Possible Solution: 
-
+; LCtrl & Tab - cannot use Copy/Paste if using left control
 ; LCtrl & Tab:: AltTab -- this doesn't work in Admin mode in PS, CMD.exe
+; Use RCtrl so that LCtrl is used for LCtrl-C for Stop, and RCtrl-C for copy
 RCtrl & tab:: AltTab
+
+; TODO: not sure whether to use LAlt or RAlt???
+; Right Alt
 $>!`::Send ^{tab} 
 
 ; Ctrl+Tab, Shift+Tab - 
@@ -25,16 +39,17 @@ $>!`::Send ^{tab}
 ;$<!`::Send {Ctrl Down}{PgUp}{Ctrl Up} 
 ; !!! but this isn't same as Cmd+backtick.
 ; In Win, there is currently no way to cycle through window ???
-; although the 3rd party app "AltTab?" can do this.
+; although the 3rd party app "VistaSwitch" can do this.
 
+; Chrome tab 
+; Mac: Cmd+Shift+] or [ go to next/prev tabs
+; Win: Ctrl+Tab, Ctrl+Shift+Tab
+^+]::Send ^{Tab}
+^+[::Send ^+{Tab}
 
 ;SetTitleMatchMode 2 ;- Mode 2 is window title substring.
 ;#IfWinActive, OneNote ; Only apply this script to onenote.
 
-; $ = hook, prevent circular reference?
-; ! = ALT
-; ^ = CTRL
-; # = windows key
 
 ; ALT+C -> CTRL+C
 ; $!c::^c ; DOESN'T WORK
@@ -78,6 +93,13 @@ RCtrl & down::Send ^{end}
 RCtrl & left::Send {home} 
 RCtrl & right::Send {end} 
 
+; Desk spaces
+; TODO: not easy to do AltTab style 
+; default Win: LCtrl+Win+arrow = switch desk space
+; I want Mac style, where it is CMD+LAlt+Arrow
+; Works
+;Rctrl & LWin:: Return
+;LWin & RCtrl::Send ^#
 
 ;===========================================================================
 ; App-specific
