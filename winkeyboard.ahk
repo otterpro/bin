@@ -90,8 +90,30 @@ $>^q::Send !{f4}
 ; so use Right Alt to do this, since it is still preserved on RAlt
 RCtrl & up::Send ^{home}  
 RCtrl & down::Send ^{end} 
-RCtrl & left::Send {home} 
-RCtrl & right::Send {end} 
+RCtrl & left::
+    ; mimic Mac's desktop move. Win + RCtrl + left = same as Win+LCtrl+left
+    ; Mac = CMd+Alt+left.   Win = WIn+Ctrl+left
+    if (GetKeyState("LWin")) {
+        Send <#^{left}
+    }
+    ; mimic Mac's Cmd+ left Arrow (beginning of line)
+    ; WIn's Ctrl+arrow = only word at a time
+    else {
+        Send {home} 
+    }
+return
+RCtrl & right::
+    ; mimic Mac's desktop move. Win + RCtrl + Right = same as Win+LCtrl+Right
+    ; Mac = CMd+Alt+Right.   Win = WIn+Ctrl+Right
+    if (GetKeyState("LWin")) {
+        Send <#^{right}
+    }
+    ; mimic Mac's Cmd+Arrow (end of line)
+    ; WIn's Ctrl+arrow = only word at a time
+    else {
+        Send {end} 
+    }
+return
 
 ; Desk spaces
 ; TODO: not easy to do AltTab style 
@@ -100,6 +122,15 @@ RCtrl & right::Send {end}
 ; Works
 ;Rctrl & LWin:: Return
 ;LWin & RCtrl::Send ^#
+;;Rctrl & LWin::
+; *RCtrl & right::
+;     MsgBox 0,hello, "You pressed %A_ThisHotKey%", 1
+;     if (GetKeyState("Right")) {
+;         MsgBox 0,hello, "You pressed %A_ThisHotKey%", 1
+;     }
+; Return
+
+
 
 ;===========================================================================
 ; App-specific
