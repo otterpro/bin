@@ -126,6 +126,20 @@ RCtrl & right::
     }
 return
 
+;===========================================================================
+; Remap Caps Lock in Windows (escape *and* control) https://superuser.com/a/581988
+;===========================================================================
+*CapsLock::
+    Send {Blind}{Ctrl Down}
+    cDown := A_TickCount
+Return
+
+*CapsLock up::
+    If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
+        Send {Blind}{Ctrl Up}{Esc}
+    Else
+        Send {Blind}{Ctrl Up}
+Return
 
 
 

@@ -40,20 +40,29 @@ if ((Get-ItemProperty $key).HideFileExt -ne 0) {
 }
 
 #===========================================================================
-# Swap Ctrl with CapsLock and assign Left ALT to Right CTRL
+# Swap Ctrl with CapsLock and/or assign Left ALT to Right CTRL
 #===========================================================================
 # see ~/bin/winkb*.reg
 # Note: The user must re-login? /reboot to take effect
 # setting binValues in registry: https://stackoverflow.com/a/33586470
 #Change these three to match up to the extracted registry data and run as Admin
+# currently, I'm only using LALT-RCTRL swap
+#   CAPSLOCK is handled by Autohotkey due to ESC-CTRL mechanism
+ 
 $key = 'HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout'
 $attribute = "Scancode Map"
 $propValue = (Get-ItemProperty $key).$attribute 
 if (!$propValue) {  #if reg value doesn't exist
-    $binValues = "00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,1d,e0,38,00,00,00,00,00"
+    # Ctrl-Capslock and LeftALT with RCTRL
+    # $binValues = "00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,1d,e0,38,00,00,00,00,00"
+
+    # Only LeftALT with RCTRL
+    #"Scancode Map"=hex:00,00,00,00,00,00,00,00,02,00,00,00,1d,e0,38,00,00,00,00,00
+    $binValues = "00,00,00,00,00,00,00,00,02,00,00,00,1d,e0,38,00,00,00,00,00"
     $hexified = $binValues.Split(',') | % { "0x$_"}
     New-ItemProperty -Path $key -Name $attribute -PropertyType Binary -Value ([byte[]]$hexified)
 }
+
 
 # TODO: git clone my dotfiles and cd into that folder 
 # then do the following
