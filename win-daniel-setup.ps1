@@ -1,3 +1,6 @@
+# 
+cd $PSScriptRoot
+
 #===========================================================================
 # CONFIG: change if needed
 #===========================================================================
@@ -132,9 +135,9 @@ if (!$propValue) {  #if reg value doesn't exist
 
 #original intent: 
 #   New-Item -path $profile -ItemType SymbolicLink -Value C:\cygwin64\home\DKim\bin\Microsoft.PowerShell_profile.ps1
-if (!(Test-Path -Path $profile)) { 
+if (!(Test-Path -Path $profile.CurrentUserAllHosts)) { 
     Write-Host "creating symbolic link for PS profile"
-    New-Item -path $profile -ItemType SymbolicLink -Value "$PSScriptRoot\Microsoft.PowerShell_profile.ps1"
+    New-Item -path $profile.CurrentUserAllHosts -ItemType SymbolicLink -Value "$PSScriptRoot\profile.ps1"
 }
 
 #===========================================================================
