@@ -1,6 +1,9 @@
 REM Put in Scheduled Task to update _notes daily
 set PATH=c:\cygwin64\bin;%PATH%
-cd c:\cygwin64\home\dkim\_notes
+set NOTES_PATH=c:\cygwin64\home\dkim\Dropbox\_notes
+
+
+cd %NOTES_PATH%
 git add -A
 git commit -m"scheduled update"
 git pull --no-edit

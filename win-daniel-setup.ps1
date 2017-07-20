@@ -53,6 +53,10 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     # choco install teracopy -y
     # choco install zerotier-one -y
     # choco install synergy -y
+
+    # windows  - home 
+    # choco install nanumfont -y
+    # problem: requires user to interact on GUI on setup!!!
 }
 
 #===========================================================================
