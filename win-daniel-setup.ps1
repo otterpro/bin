@@ -49,14 +49,20 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     # utils
     choco install bginfo -y
 
+    # editors
+    choco install emacs -y
+    choco install vim -y
+    choco install sourcecodepro -y   #font
+    # TODO: spacemacs
+
     # possibly broken/ fails, but would like
     # choco install teracopy -y
     # choco install zerotier-one -y
     # choco install synergy -y
 
     # windows  - home 
-    # choco install nanumfont -y
-    # problem: requires user to interact on GUI on setup!!!
+    # choco install nanumfont -y  # don't install. install fantasq istaed
+        # problem: requires user to interact on GUI on setup!!!
 }
 
 #===========================================================================
@@ -142,6 +148,19 @@ if (!$propValue) {  #if reg value doesn't exist
 if (!(Test-Path -Path $profile.CurrentUserAllHosts)) { 
     Write-Host "creating symbolic link for PS profile"
     New-Item -path $profile.CurrentUserAllHosts -ItemType SymbolicLink -Value "$PSScriptRoot\profile.ps1"
+}
+
+#===========================================================================
+# emacs : set $HOME (for domain user only), as it has problem finding it
+#===========================================================================
+$key = 'HKCU:\SOFTWARE\GNU\Emacs'
+$attribute = "Home"
+$propValue = (Get-ItemProperty $key).$attribute 
+if (!$propValue) {  #if reg value doesn't exist
+
+    Write-Host "Setting HOME value in Gnu Emacs"
+    New-Item -Path $key -Force | Out-Null
+    New-ItemProperty -Path $key -Name $attribute -PropertyType String -Value $HOME   -Force | Out-Null
 }
 
 #===========================================================================
