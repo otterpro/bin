@@ -1,4 +1,4 @@
-# 
+﻿# 
 cd $PSScriptRoot
 
 #===========================================================================
@@ -133,10 +133,8 @@ if (!$propValue) {  #if reg value doesn't exist
     New-ItemProperty -Path $key -Name $attribute -PropertyType Binary -Value ([byte[]]$hexified)
 }
 
-
 # TODO: git clone my dotfiles and cd into that folder 
 # then do the following
-
 
 #===========================================================================
 # create symbolic link for PS profile (includes aliases, etc)
@@ -149,6 +147,32 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
     Write-Host "creating symbolic link for PS profile"
     New-Item -path $profile.CurrentUserAllHosts -ItemType SymbolicLink -Value "$PSScriptRoot\profile.ps1"
 }
+
+#===========================================================================
+# TODO: install cygwin and then git clone my repository first!!!
+#===========================================================================
+# UNTESTED
+# 
+#choco install cygwin -y  # automatically installed by cyg-get?
+choco install cyg-get -y
+cyg-get git zip unzip vim zsh python curl
+# dotfiles 
+# UNTESTED!!!
+c:\cygwin64\bin\git clone https://github.com/otterpro/dotfiles.git "C:\Cygwin64\home\$env:username\.dotfiles"
+c:\cygwin64\bin\bash.exe "C:\Cygwin64\home\$env:username\.dotfiles\dotfiles.sh"
+
+#===========================================================================
+# link .vim, .vimrc, .gvim
+# NOTE: must install cygwin and git clone /bin first!!!
+#===========================================================================
+New-Item -Path  "$env:USERPROFILE\.vimrc" -ItemType SymbolicLink -Value "C:\Cygwin64\home\$env:username\.vimrc"
+Move-Item -Path "$env:USERPROFILE\vimfiles\" "$env:USERPROFILE\vimfiles_old\"
+    # Remove-Item -Path "$env:USERPROFILE\vimfiles\" -Recurse -Force
+    # also delete existing vimfiles\ since I can't create new symlink on existin dir
+    # but instead of deleting, move it to temp folder for safety!!!
+New-Item -Path  "$env:USERPROFILE\vimfiles\"  -ItemType SymbolicLink -Value "C:\Cygwin64\home\$env:username\.dotfiles\.vim\"
+    # Windows Vim uses vimfiles/, not .vim/
+New-Item -Path  "$env:USERPROFILE\.gvimrc"  -ItemType SymbolicLink -Value "C:\Cygwin64\home\$env:username\.dotfiles\.gvimrc"
 
 #===========================================================================
 # emacs : set $HOME (for domain user only), as it has problem finding it
