@@ -8,11 +8,11 @@ cd $PSScriptRoot
 # possible TODO: also set domain credential, etc
 $ComputerName = $null
 
-
 Write-Host "windows user's personal setup"
 # Write-click on this script and run as Powershell script
 
 # ensure ExecutionPolicy to either AllSigned or Bypass
+# TODO: THIS should be in DOS SCRIPT
 Set-ExecutionPolicy -ExecutionPolicy AllSigned
 
 # if above line doesn't work, try this
@@ -31,14 +31,29 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
 
     # install and update choco
     iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    choco upgrade chocolatey -y
+}
 
+    $MyChocolateyToolsPath="C:\bin\choco"
+    # make sure to change choco install path for certain packages 
+    #TODO: add the same for pstools , usually c:\tools\, but this needs to be changed
+    #[Environment]::SetEnvironmentVariable($env:ChocolateyToolsLocation, "c:\bin\choco", [EnvironmentVariableTarget]::Machine)
+    # Turns out I need to use User, not Machine
+    # permanently
+    [Environment]::SetEnvironmentVariable("ChocolateyToolsLocation", $MyChocolateyToolsPath, "User")
+    # also for this session
+    $env:ChocolateyToolsLocation= $MyChocolateyToolsPath   
+    
+    #NOTE: also might change it to c:\ProgramData\chocolatey\bin, as this is where some bin files are going to.
+
+# choco update
+    choco upgrade chocolatey -y
     # Base
     choco install git -y
     choco install git-credential-winstore -y
     choco install poshgit -y
+    choco install cmake -y
 
-    # UI tools
+    # UI tools essential
     choco install autohotkey -y
     choco install 7zip -y
 
@@ -50,11 +65,13 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     choco install bginfo -y
 
     # editors
-    choco install emacs -y
+    #choco install emacs -y  #temp disabled - not sure if I want
     choco install vim -y
     choco install sourcecodepro -y   #font
-    # TODO: spacemacs
+    # TODO: spacemacs???
 
+    # misc
+    choco install ffmpeg -y
     # possibly broken/ fails, but would like
     # choco install teracopy -y
     # choco install zerotier-one -y
@@ -63,7 +80,11 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     # windows  - home 
     # choco install nanumfont -y  # don't install. install fantasq istaed
         # problem: requires user to interact on GUI on setup!!!
-}
+    
+    # add to path: C:\ProgramData\chocolatey\bin\  (ffmpeg)
+    #TODO: ? is this required? or is this set with chocolatey install?
+    # [Environment]::SetEnvironmentVariable("Path", $env:Path + ";"+$env:ProgramData+"\chocolatey\bin", [EnvironmentVariableTarget]::Machine)
+    # not sure, so commented out for now.  If 'ffmpeg' won't launch, check
 
 #===========================================================================
 # Enable Remote Desktop (RDP)
@@ -151,15 +172,22 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
 #===========================================================================
 # TODO: install cygwin and then git clone my repository first!!!
 #===========================================================================
+# TODO: DO I use cygwin? or git-windows-bash? cygwin is too heavy?!
+# TODO: install git-win-bash, using DOS script, use it to bootstrap and 
+# download this script to run
 # UNTESTED
-# 
+# assuming Cygwin for now?  
+$DotfileTargetPath="C:\Cygwin64\home\$env:username\.dotfiles"
 #choco install cygwin -y  # automatically installed by cyg-get?
 choco install cyg-get -y
 cyg-get git zip unzip vim zsh python curl
 # dotfiles 
-# UNTESTED!!!
-c:\cygwin64\bin\git clone https://github.com/otterpro/dotfiles.git "C:\Cygwin64\home\$env:username\.dotfiles"
-c:\cygwin64\bin\bash.exe "C:\Cygwin64\home\$env:username\.dotfiles\dotfiles.sh"
+# UNTESTED!!!  THIS SHOULD BE IN DOS SCRIPT
+c:\cygwin64\bin\git clone https://github.com/otterpro/dotfiles.git $DotfileTargetPath
+c:\cygwin64\bin\bash.exe "$DotfileTargetPath\dotfiles.sh"
+
+# UNTESTED but this needs to run first
+# c:\cygwin64\bin\git clone https://github.com/otterpro/bin.git "C:\bin"
 
 #===========================================================================
 # link .vim, .vimrc, .gvim

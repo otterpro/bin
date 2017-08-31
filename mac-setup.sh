@@ -21,6 +21,7 @@ brew install trash
 brew install m-cli
 brew install macvim
 brew install vlc
+brew install tldr
 
 # wishlist
 # beardspice
