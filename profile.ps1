@@ -26,3 +26,12 @@ $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
+
+# import posh-docker if it had been installed
+if (Get-Module -ListAvailable -Name posh-docker) {
+    Import-Module posh-docker
+    #Write-Host "Module exists"
+} else {
+    #Write-Host "Module does not exist"
+    # install here if wanted
+}

@@ -7,6 +7,7 @@ cd $PSScriptRoot
 # change this if you want to rename the PC. 
 # possible TODO: also set domain credential, etc
 $ComputerName = $null
+$keyboardRemapCapslock = $false
 
 Write-Host "windows user's personal setup"
 # Write-click on this script and run as Powershell script
@@ -144,12 +145,15 @@ $propValue = (Get-ItemProperty $key).$attribute
 if (!$propValue) {  #if reg value doesn't exist
 
     Write-Host "Keyboard setting - swapping Ctrl with Alt "
-    # Ctrl-Capslock and LeftALT with RCTRL
-    # $binValues = "00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,1d,e0,38,00,00,00,00,00"
-
-    # Only LeftALT with RCTRL
-    #"Scancode Map"=hex:00,00,00,00,00,00,00,00,02,00,00,00,1d,e0,38,00,00,00,00,00
-    $binValues = "00,00,00,00,00,00,00,00,02,00,00,00,1d,e0,38,00,00,00,00,00"
+    if ($keyboardRemapCapslock) {
+        # Ctrl-Capslock and LeftALT with RCTRL
+        $binValues = "00,00,00,00,00,00,00,00,03,00,00,00,1d,00,3a,00,1d,e0,38,00,00,00,00,00"
+    }
+    else {
+        # Only LeftALT with RCTRL
+        #"Scancode Map"=hex:00,00,00,00,00,00,00,00,02,00,00,00,1d,e0,38,00,00,00,00,00
+        $binValues = "00,00,00,00,00,00,00,00,02,00,00,00,1d,e0,38,00,00,00,00,00"
+    }
     $hexified = $binValues.Split(',') | % { "0x$_"}
     New-ItemProperty -Path $key -Name $attribute -PropertyType Binary -Value ([byte[]]$hexified)
 }

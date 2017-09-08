@@ -11,6 +11,9 @@
 ; SharpKeys: Remap Left Alt to Right Control!!!
 ;   remap CapsLock to Left Control (Optional)
 
+; Recommended system-wide setting
+SendMode Input
+#NoEnv
 #SingleInstance Force ; SingleInstance makes the script automatically reload?.
 ; make sure only one instance of this script is running!!!
 
@@ -129,17 +132,68 @@ return
 ;===========================================================================
 ; Remap Caps Lock in Windows (escape *and* control) https://superuser.com/a/581988
 ;===========================================================================
-*CapsLock::
-    Send {Blind}{Ctrl Down}
-    cDown := A_TickCount
-Return
+; uses hardware switch 
+; but capslock (no matter where it is) should be ctrl
+; in case of Leopold keyboard, it switches Capslock with Ctrl
+;   but I want new capslock (CTRL) to act as ctrl, still
+; Capslock dual function - original , but not workin gwell
+; *CapsLock::
+;     Send {Blind}{Ctrl Down}
+;     cDown := A_TickCount
+; Return
 
-*CapsLock up::
-    If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
-        Send {Blind}{Ctrl Up}{Esc}
-    Else
-        Send {Blind}{Ctrl Up}
-Return
+; *CapsLock up::
+;     If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
+;         Send {Blind}{Ctrl Up}{Esc}
+;     Else
+;         Send {Blind}{Ctrl Up}
+; Return
+
+; LCtrl - dual function - original, but not working well
+; *LCtrl::
+;     Send {Blind}{LCtrl Down}
+;     cDown := A_TickCount
+; Return
+
+; *LCtrl up::
+;     If ((A_TickCount-cDown)<100)  ; Modify press time as needed (milliseconds)
+;         Send {Blind}{LCtrl Up}{Esc}
+;     Else
+;         Send {Blind}{LCtrl Up}
+; Return
+
+
+; also for Non-programmable keyboard, Win needs to set Capslock to CTRL
+; in registry. 
+
+; double-function key - disabled for now, using lctrl instead
+; *CapsLock::
+;     Send {Blind}{Ctrl Down}
+;     cDown := A_TickCount
+; Return
+
+; *CapsLock up::
+;     If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
+;         Send {Blind}{Ctrl Up}{Esc}
+;     Else
+;         Send {Blind}{Ctrl Up}
+; Return
+
+;Assumption: 
+; CAPSLOCK has been mapped physically to CTRL, either with keyboard switch
+; or with registry hack on windows
+
+; switch capslock with control  
+; only because Leopold kb is switched
+; was using L/RCtrl instead of Ctrl to avoid loops (from LCtrl -double function)
+Capslock::Ctrl
+
+; My try - it works for some reason, but only on hardware CTRL (unmapped)
+; LCTrl instead of Ctrl - just to minimize changes
+LCtrl::Send {esc}
+$<^a::^a
+;$^a::^a
+
 
 ;===========================================================================
 ; App-specific
