@@ -1,28 +1,43 @@
+;=========================================================================
+; AUTOHOTKEY quick reference
+;=========================================================================
 ; $ = hook, prevent circular reference?
 ; ! = ALT
 ; ^ = CTRL
 ; # = windows key
 
+;-------------------------------------------------------------------------
+; Notes:
+;-------------------------------------------------------------------------
 ; In Windows, ALT key is rarely used, but it is also one of the most useful
 ; keys.  Also thumb is the strongest finger. Pinkie is the weakest.
 
-; Installation:
-;
+;-------------------------------------------------------------------------
+; Installation: 
+;-------------------------------------------------------------------------
 ; SharpKeys: Remap Left Alt to Right Control!!!
 ;   remap CapsLock to Left Control (Optional)
 
+;=========================================================================
 ; Recommended system-wide setting
+;=========================================================================
 SendMode Input
 #NoEnv
 #SingleInstance Force ; SingleInstance makes the script automatically reload?.
 ; make sure only one instance of this script is running!!!
 
+;-------------------------------------------------------------------------
 ;[PAUSE/BREAK]
-; Pressing Pause/Break will toggle AHK script 
-; Useful when you want to quickly switch off AHK, esp when you want to share 
-; the keyboard with someone else
+; Pressing Pause/Break will toggle AHK script; Useful when you want to quickly switch off AHK, esp when you want to share the keyboard with someone else
+;-------------------------------------------------------------------------
 Pause::Suspend
 
+;=========================================================================
+; WINDOWS-Specific
+;=========================================================================
+;-------------------------------------------------------------------------
+; ALT Tab
+;-------------------------------------------------------------------------
 ; Reason we can't map All Alt to CTRL is that CTRL-C,V,X,A,Z is special and 
 ; they can mess up terminal.  We want to actually copy and paste when pressing 
 ; ALT vs the real CTRL key.
@@ -31,6 +46,7 @@ Pause::Suspend
 ; LCtrl & Tab:: AltTab -- this doesn't work in Admin mode in PS, CMD.exe
 ; Use RCtrl so that LCtrl is used for LCtrl-C for Stop, and RCtrl-C for copy
 RCtrl & tab:: AltTab
+
 
 ; TODO: not sure whether to use LAlt or RAlt???
 ; DOES NOT WORK!!!
@@ -46,16 +62,6 @@ RCtrl & tab:: AltTab
 ; !!! but this isn't same as Cmd+backtick.
 ; In Win, there is currently no way to cycle through window ???
 ; although the 3rd party app "VistaSwitch" can do this.
-
-; Chrome tab 
-; [CTRL]+[]] and [CTRL]+[[]
-; Mac: Cmd+Shift+] or [ go to next/prev tabs
-; Win: Ctrl+Tab, Ctrl+Shift+Tab
-^+]::Send ^{Tab}
-^+[::Send ^+{Tab}
-
-;SetTitleMatchMode 2 ;- Mode 2 is window title substring.
-;#IfWinActive, OneNote ; Only apply this script to onenote.
 
 
 ; ALT+C -> CTRL+C
@@ -80,54 +86,70 @@ RCtrl & tab:: AltTab
 
 ;$>^x::Send {Shift Down}{Del}{Shift Up}
 
-; Find and Find Next/prev
+;-------------------------------------------------------------------------
+; CMD+F = F3, Find and Find Next/prev
+;-------------------------------------------------------------------------
 ; [CTRL]+[g]
 $>^g::Send {F3}
 ; [CTRL]+[G]
 $>^+G::Send {Shift Down}{F3}{Shift Up}
 
-; Quit 
-; [CTRL]+[q]
+;-------------------------------------------------------------------------
+; Quit, [CTRL]+[q]
+;-------------------------------------------------------------------------
 ; Alt+F4  OR Alt+Space C
 ;$!q::Send {Alt Down}{F4}{Alt Up} ; doesn't work see {below}'
 $>^q::Send !{f4}
 
 ; this could also be Ctrl+F4, but not sure which one is more compatible
 
+;-------------------------------------------------------------------------
+; Ctrl+arrow
+;-------------------------------------------------------------------------
 ; Alt+ uparrow => Ctrl+Home / go to top of document
 ; Alt+ downarrow => Ctrl+End / go to bottom of document
 ; Alt up/down is useful in Visual Code, as it moves lines up/down
 ; so use Right Alt to do this, since it is still preserved on RAlt
 RCtrl & up::Send ^{home}  
 RCtrl & down::Send ^{end} 
-RCtrl & left::
+>^left::Send {home} 
+; RCtrl & left::Send {home} ; Don't use this as it also captures Windows key
+
     ; default Win: LCtrl+Win+arrow = switch desk space
     ; I want Mac style, where it is CMD+LAlt+Arrow
     ; mimic Mac's desktop move. Win + RCtrl + left = same as Win+LCtrl+left
     ; Mac = CMd+Alt+left.   Win = WIn+Ctrl+left
-    if (GetKeyState("LWin")) {
-        Send <#^{left}
-    }
+    ;if (GetKeyState("LWin")) {
+        ;Send <#^{left}
+         ;works but prints "<"
+        ; Send {Win}{ctrl}{Left}
+    ;}
     ; mimic Mac's Cmd+ left Arrow (beginning of line)
     ; WIn's Ctrl+arrow = only word at a time
-    else {
-        Send {home} 
-    }
-return
-RCtrl & right::
+    ;else {
+    ;}
+;RCtrl & right::Send {end} 
+; Don't use this as it also captures Windows key
+>^right::Send {end} 
     ; default Win: LCtrl+Win+arrow = switch desk space
     ; I want Mac style, where it is CMD+LAlt+Arrow
     ; mimic Mac's desktop move. Win + RCtrl + Right = same as Win+LCtrl+Right
     ; Mac = CMd+Alt+Right.   Win = WIn+Ctrl+Right
-    if (GetKeyState("LWin")) {
-        Send <#^{right}
-}
+    ;if (GetKeyState("LWin")) {
+        ;Send <#^{right}
+        ; works but, prints "<"
+        ; nonoe of these below works!
+        ;Send ^#{Right}
+            ; only sends #{Right}
+        ;sendevent {LWin down}{LCtrl down}{Right down}{LWin up}{LCtrl up}{Right up}
+        ;Send {Lwin}{LCtrl}{Right}
+        ;Send {LWin down}{Ctrl down}{Right down}{Right up}{LWin up}{Ctrl up}
+        ; Send {LWin down}{Ctrl down}{Right}
+;}
     ; mimic Mac's Cmd+Arrow (end of line)
-    ; WIn's Ctrl+arrow = only word at a time
-    else {
-        Send {end} 
-    }
-return
+; WIn's Ctrl+arrow = only word at a time
+    ;else {
+    ;}
 
 ;===========================================================================
 ; Remap Caps Lock in Windows (escape *and* control) https://superuser.com/a/581988
@@ -198,7 +220,18 @@ $<^a::^a
 ;===========================================================================
 ; App-specific
 ;===========================================================================
-;
+; TAB on Chrome tab, and others... doesn't work on all
+; TODO: make it app-specific...
+; [CTRL]+[]] and [CTRL]+[[]
+; Mac: Cmd+Shift+] or [ go to next/prev tabs
+; Win: Ctrl+Tab, Ctrl+Shift+Tab
+^+]::Send ^{Tab}
+^+[::Send ^+{Tab}
+
+;SetTitleMatchMode 2 ;- Mode 2 is window title substring.
+;#IfWinActive, OneNote ; Only apply this script to onenote.
+
+
 ; Vim, GVim
 #IfWinActive ahk_class Vim
 $>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
