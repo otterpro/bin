@@ -1,4 +1,5 @@
-﻿# 
+﻿#Start-Process PowerShell -ArgumentList "Set-ExecutionPolicy Restricted -Force" -Verb RunAs
+# 
 cd $PSScriptRoot
 
 #===========================================================================
@@ -8,13 +9,17 @@ cd $PSScriptRoot
 # possible TODO: also set domain credential, etc
 $ComputerName = $null
 $keyboardRemapCapslock = $false
+$MyChocolateyToolsPath="C:\bin\choco"
+$emacs = $null  #if $true, install emacs and do settings
 
+    # make sure to change choco install path for certain packages 
+    #TODO: add the same for pstools , usually c:\tools\, but this needs to be changed
 Write-Host "windows user's personal setup"
 # Write-click on this script and run as Powershell script
 
 # ensure ExecutionPolicy to either AllSigned or Bypass
 # TODO: THIS should be in DOS SCRIPT
-Set-ExecutionPolicy -ExecutionPolicy AllSigned
+#Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
 
 # if above line doesn't work, try this
 # (https://superuser.com/questions/616106/set-executionpolicy-using-batch-file-powershell-script)
@@ -34,9 +39,7 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 }
 
-    $MyChocolateyToolsPath="C:\bin\choco"
-    # make sure to change choco install path for certain packages 
-    #TODO: add the same for pstools , usually c:\tools\, but this needs to be changed
+
     #[Environment]::SetEnvironmentVariable($env:ChocolateyToolsLocation, "c:\bin\choco", [EnvironmentVariableTarget]::Machine)
     # Turns out I need to use User, not Machine
     # permanently
@@ -53,6 +56,9 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     choco install git-credential-winstore -y
     choco install poshgit -y
     choco install cmake -y
+    choco install conemu -y
+    choco install python -y  
+    # python required for vim
 
     # UI tools essential
     choco install autohotkey -y
@@ -61,12 +67,11 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     # Network tool
     # zerotier choco package is "possibly broken"
     choco install zerotier-one -y
-
+    
     # utils
     choco install bginfo -y
 
     # editors
-    #choco install emacs -y  #temp disabled - not sure if I want
     choco install vim -y
     choco install sourcecodepro -y   #font
     # TODO: spacemacs???
@@ -181,34 +186,24 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
 # download this script to run
 # UNTESTED
 # assuming Cygwin for now?  
-$DotfileTargetPath="C:\Cygwin64\home\$env:username\.dotfiles"
+
 #choco install cygwin -y  # automatically installed by cyg-get?
 choco install cyg-get -y
 cyg-get git zip unzip vim zsh python curl
-# dotfiles 
-# UNTESTED!!!  THIS SHOULD BE IN DOS SCRIPT
-c:\cygwin64\bin\git clone https://github.com/otterpro/dotfiles.git $DotfileTargetPath
-c:\cygwin64\bin\bash.exe "$DotfileTargetPath\dotfiles.sh"
 
-# UNTESTED but this needs to run first
-# c:\cygwin64\bin\git clone https://github.com/otterpro/bin.git "C:\bin"
+# CONTINUE HERE!!!
+$cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
 
-#===========================================================================
-# link .vim, .vimrc, .gvim
-# NOTE: must install cygwin and git clone /bin first!!!
-#===========================================================================
-New-Item -Path  "$env:USERPROFILE\.vimrc" -ItemType SymbolicLink -Value "C:\Cygwin64\home\$env:username\.vimrc"
-Move-Item -Path "$env:USERPROFILE\vimfiles\" "$env:USERPROFILE\vimfiles_old\"
-    # Remove-Item -Path "$env:USERPROFILE\vimfiles\" -Recurse -Force
-    # also delete existing vimfiles\ since I can't create new symlink on existin dir
-    # but instead of deleting, move it to temp folder for safety!!!
-New-Item -Path  "$env:USERPROFILE\vimfiles\"  -ItemType SymbolicLink -Value "C:\Cygwin64\home\$env:username\.dotfiles\.vim\"
-    # Windows Vim uses vimfiles/, not .vim/
-New-Item -Path  "$env:USERPROFILE\.gvimrc"  -ItemType SymbolicLink -Value "C:\Cygwin64\home\$env:username\.dotfiles\.gvimrc"
+# cygwin has to run at least once, as it creates username and home directory
+# not sure if this will work... hopefully it's not interactive???  icon has mintty.exe -i (-i = ???)
+&"$cygwinBin\mintty.exe"
 
 #===========================================================================
 # emacs : set $HOME (for domain user only), as it has problem finding it
 #===========================================================================
+if ($emacs) {
+
+    choco install emacs -y  
 $key = 'HKCU:\SOFTWARE\GNU\Emacs'
 $attribute = "Home"
 $propValue = (Get-ItemProperty $key).$attribute 
@@ -217,6 +212,7 @@ if (!$propValue) {  #if reg value doesn't exist
     Write-Host "Setting HOME value in Gnu Emacs"
     New-Item -Path $key -Force | Out-Null
     New-ItemProperty -Path $key -Name $attribute -PropertyType String -Value $HOME   -Force | Out-Null
+}
 }
 
 #===========================================================================
