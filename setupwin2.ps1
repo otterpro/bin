@@ -58,7 +58,8 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     choco install cmake -y
     choco install conemu -y
     choco install python -y  
-    # python required for vim
+    choco install python2 -y
+    # python2 required for gvim
 
     # UI tools essential
     choco install autohotkey -y
@@ -78,6 +79,7 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
 
     # misc
     choco install ffmpeg -y
+    choco install vlc -y
     # possibly broken/ fails, but would like
     # choco install teracopy -y
     # choco install zerotier-one -y
@@ -86,6 +88,11 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     # windows  - home 
     # choco install nanumfont -y  # don't install. install fantasq istaed
         # problem: requires user to interact on GUI on setup!!!
+    # TODO: no fantasq font yet
+    
+    # browsers
+    choco install firefox -y
+    choco install GoogleChrome -y
     
     # add to path: C:\ProgramData\chocolatey\bin\  (ffmpeg)
     #TODO: ? is this required? or is this set with chocolatey install?
