@@ -64,6 +64,9 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     # UI tools essential
     choco install autohotkey -y
     choco install 7zip -y
+    choco install ripgrep -y
+    choco install ag -y
+    choco install fzf -y
 
     # Network tool
     # zerotier choco package is "possibly broken"
