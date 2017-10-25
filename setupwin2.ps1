@@ -191,11 +191,9 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
 #===========================================================================
 # TODO: install cygwin and then git clone my repository first!!!
 #===========================================================================
-# TODO: DO I use cygwin? or git-windows-bash? cygwin is too heavy?!
-# TODO: install git-win-bash, using DOS script, use it to bootstrap and 
-# download this script to run
-# UNTESTED
-# assuming Cygwin for now?  
+# DO I use cygwin? or git-windows-bash? cygwin is too heavy?!
+# install git-win-bash, using DOS script, use it to bootstrap and 
+# Currently using cygwin as git, since cygwin is more versatile
 
 #choco install cygwin -y  # automatically installed by cyg-get?
 choco install cyg-get -y

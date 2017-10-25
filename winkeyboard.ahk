@@ -216,6 +216,26 @@ LCtrl::Send {esc}
 $<^a::^a
 ;$^a::^a
 
+;===========================================================================
+; Alt-backtick 
+; https://superuser.com/a/768060
+; Changed to Ctrl-Escape since that's how the Leopold KB is set up right now
+;===========================================================================
+;!`::    ; Next window
+^ESC::    ; Next window
+WinGetClass, ActiveClass, A
+WinGet, WinClassCount, Count, ahk_class %ActiveClass%
+IF WinClassCount = 1
+    Return
+Else
+WinSet, Bottom,, A
+WinActivate, ahk_class %ActiveClass%
+return
+
+^+ESC::    ; Last window
+WinGetClass, ActiveClass, A
+WinActivateBottom, ahk_class %ActiveClass%
+return
 
 ;===========================================================================
 ; App-specific

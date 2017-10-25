@@ -1,4 +1,4 @@
-$cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
+﻿$cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
 # dotfiles 
 # UNTESTED!!!  THIS SHOULD BE IN DOS SCRIPT
 # unfortunately, it can't easily do git clone, so dotfiles will have to be done separately
@@ -22,3 +22,6 @@ Move-Item -Path "$env:USERPROFILE\vimfiles\" "$env:USERPROFILE\vimfiles_old\"
 New-Item -Path  "$env:USERPROFILE\vimfiles\"  -ItemType SymbolicLink -Value "$cygwinHomeDir\.dotfiles\.vim\"
     # Windows Vim uses vimfiles/, not .vim/
 New-Item -Path  "$env:USERPROFILE\.gvimrc"  -ItemType SymbolicLink -Value "$cygwinHomeDir\.dotfiles\.gvimrc"
+
+# ~/cyghome => /cygwin..../home/USER/
+New-Item -Path  "$env:USERPROFILE\cyghome\"  -ItemType SymbolicLink -Value "$cygwinHomeDir\"
