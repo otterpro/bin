@@ -3,7 +3,7 @@
 case "$OSTYPE" in
 	darwin*) 
 		#note_path=~/Dropbox/_notes
-		note_path=/Volumes/Samsung128/Dropbox/_notes
+		note_path=/Users/otter/notes
 		editor=mvim
 		;;
 	*) 

@@ -21,16 +21,18 @@ brew install trash
 brew install m-cli
 brew install macvim
 brew install vlc
+
+# optional
 brew install tldr
 
 # wishlist
-# beardspice
+# brew cask install evernote
+# brew cask install google-chrome
+# brew cask install firefox 
+# beardspice - not avail on brew
 # zerotier and setup
 # amazon music
-# chrome?
-# firefox?
-# evernote
 
 # ffmpeg
-# brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-frei0r --with-libass --with-libvo-aacenc --with-libvorbis --with-libvpx --with-opencore-amr --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex --with-theora --with-tools
+brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-frei0r --with-libass --with-libvo-aacenc --with-libvorbis --with-libvpx --with-opencore-amr --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex --with-theora --with-tools
 
