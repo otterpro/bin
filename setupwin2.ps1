@@ -61,31 +61,33 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     choco install python2 -y
     # python2 required for gvim
 
-    # UI tools essential
+    # tools essential
     choco install autohotkey -y
     choco install 7zip -y
     choco install ripgrep -y
     choco install ag -y
     choco install fzf -y
+    # utils
+    choco install bginfo -y
+    # broken?
+    # choco install teracopy -y
 
     # Network tool
     # zerotier choco package is "possibly broken"
     choco install zerotier-one -y
     
-    # utils
-    choco install bginfo -y
-
     # editors
     choco install vim -y
     choco install sourcecodepro -y   #font
-    # TODO: spacemacs???
+    # maybe: spacemacs
 
-    # misc
+    # Media
     choco install ffmpeg -y
     choco install vlc -y
+    choco install foobar2000 -y
+    choco install musicbee -y
+    
     # possibly broken/ fails, but would like
-    # choco install teracopy -y
-    # choco install zerotier-one -y
     # choco install synergy -y
 
     # windows  - home 
@@ -153,6 +155,9 @@ if ((Get-ItemProperty $key).HideFileExt -ne 0) {
 #Change these three to match up to the extracted registry data and run as Admin
 # currently, I'm only using LALT-RCTRL swap
 #   CAPSLOCK is handled by Autohotkey due to ESC-CTRL mechanism
+#
+#   This part didn't run for some reason when I ran it on new machine... 
+#   TEST it again when 
  
 $key = 'HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout'
 $attribute = "Scancode Map"

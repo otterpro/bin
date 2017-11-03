@@ -205,7 +205,7 @@ RCtrl & down::Send ^{end}
 ; CAPSLOCK has been mapped physically to CTRL, either with keyboard switch
 ; or with registry hack on windows
 
-; switch capslock with control  
+; switch capslock with control just in case it didn't
 ; only because Leopold kb is switched
 ; was using L/RCtrl instead of Ctrl to avoid loops (from LCtrl -double function)
 Capslock::Ctrl
@@ -214,8 +214,29 @@ Capslock::Ctrl
 ; LCTrl instead of Ctrl - just to minimize changes
 LCtrl::Send {esc}
 $<^a::^a
+; not sure why we have ctrl-a mapped here..?
 ;$^a::^a
 
+;===========================================================================
+; Shift only as ( )
+; ISSUES: on remote deskotp, it doesn't work, printing 9 and 0 
+;===========================================================================
+
+; https://autohotkey.com/board/topic/98742-remapping-shift-key/
+; ~LShift::
+; 	KeyWait, LShift
+; 	If (A_TimeSinceThisHotkey < 200 and A_PriorKey = "LShift") {
+; 		Send, (
+; 	}
+; return
+;
+; ~RShift::
+; 	KeyWait, RShift
+; 	If (A_TimeSinceThisHotkey < 200 and A_PriorKey = "RShift") {
+; 		Send, )
+; 	}
+; return
+;
 ;===========================================================================
 ; Alt-backtick 
 ; https://superuser.com/a/768060

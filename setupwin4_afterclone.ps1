@@ -1,4 +1,5 @@
-﻿$cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
+﻿# TODO: create scheduled task to git push_notes.sh
+$cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
 # dotfiles 
 # UNTESTED!!!  THIS SHOULD BE IN DOS SCRIPT
 # unfortunately, it can't easily do git clone, so dotfiles will have to be done separately
