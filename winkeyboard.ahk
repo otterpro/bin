@@ -169,9 +169,9 @@ AppsKey::#Tab
 ;RCtrl & Tab::send #A
 
 ; weird, works with right ctrl, but not left
-;^]::^#Right
-$>^]::^#Right
-$>^[::^#Left
+; needed only if Winkey is replaced with ctrl
+; $>^]::^#Right
+; $>^[::^#Left
 
 ;===========================================================================
 ; Remap Caps Lock in Windows (escape *and* control) https://superuser.com/a/581988
@@ -287,9 +287,15 @@ return
 ; TAB on Chrome tab, and others... doesn't work on all
 ; Mac: Cmd+Shift+] or [ go to next/prev tabs
 ; Win: Ctrl+Tab, Ctrl+Shift+Tab
+; HOWEVER, moved to each individual app, not global
+; because it was interfering with other apps
 ;-------------------------------------------------------------------------
 ; #}::Send ^{Tab}
 ; #{::Send ^+{Tab}
+
+; GLOBAL - not n
+; $^}::Send ^{Tab}
+; $^{::Send ^+{Tab}
 
 ; If using ctrl instead
 ; ^}::Send ^{Tab}
@@ -297,8 +303,6 @@ return
 ;$^+]::Send ^{Tab}
 ;$^+[::Send ^+{Tab}
 ; Must have $ or else it will call ^+] as well
-$^}::Send ^{Tab}
-$^{::Send ^+{Tab}
 
 ;SetTitleMatchMode 2 ;- Mode 2 is window title substring.
 ;#IfWinActive, OneNote ; Only apply this script to onenote.
@@ -311,6 +315,15 @@ $^{::Send ^+{Tab}
 ^!i::Send {F12}
 ; Show source code with cmd + alt + u
 ;#^u::Send ^u ;howeer, cannot map #u?
+$^}::Send ^{Tab}
+$^{::Send ^+{Tab}
+
+;-------------------------------------------------------------------------
+; Firefox
+;-------------------------------------------------------------------------
+#IfWinActive ahk_class MozillaWindowClass
+$^}::Send ^{Tab}
+$^{::Send ^+{Tab}
 
 ;-------------------------------------------------------------------------
 ; Vim, GVim
@@ -341,5 +354,19 @@ $>^x::Send {Shift Down}{Del}{Shift Up}
 ; hotkey for Everything (currently set to Win+Shift+F)
 ; RCtrl & space::Send #F
 
+;-------------------------------------------------------------------------
+; ConEmu
+; Better to set hotkey in ConEmu setting
+; change switch-next-Console, console-prev to ctrl-shift [,]
+; change new-console to ctrl-t
+; disable "install keyboard hooks"
+;-------------------------------------------------------------------------
+; #IfWinActive ahk_class VirtualConsoleClass
+; $^}::send #Q
+; $^{::send #q
+;;Won't work because #q is reserved.
+
+
 #IfWinActive
 ; Nothing else below
+
