@@ -339,6 +339,10 @@ $>^x::Send {Shift Down}{Del}{Shift Up}
 ;#v::Send {Shift down}{Insert}{Shift Up} 
 ;#x::Send {Shift Down}{Del}{Shift Up}
 
+; this cannot be done in vimrc since [,] cannot be mapped using ctrl
+$^}::Send {Esc}:tabn{Enter}
+$^{::Send {Esc}:tabp{Enter}
+
 ;-------------------------------------------------------------------------
 ; Mintty, Cygwin, 
 ;-------------------------------------------------------------------------
