@@ -12,19 +12,23 @@
 ; In Windows, ALT key is rarely used, but it is also one of the most useful
 ; keys.  Also thumb is the strongest finger. Pinkie is the weakest.
 
+; Swapping Windows key does not work in RDP
+
 ;-------------------------------------------------------------------------
 ; Installation: 
 ; SharpKeys: 
+; TODO: we can set registry here usig RegRead/RegWrite!
 ;-------------------------------------------------------------------------
+; Remap Left Alt to Right Control!!!
+; to avoid collision with autohotkey scripts
+;   remap CapsLock to Left Control (Optional)
+; NOTE: possibly map to RIGHT WIN/ALT instead?
+; OLD: tried using Winkey as thumb key
+; but Swapping Windows key does not work in RDP
 ; remap Left Alt to Left Windows
 ; remap LEFT WIN to Right CTRL?
 ;   so that Win+Ctrl combo is still possible
 ;   but there aren't many Alt+Win combo
-; NOTE: possibly map to RIGHT WIN/ALT instead?
-; to avoid collision with autohotkey scripts
-; OLD: Remap Left Alt to Right Control!!!
-;   remap CapsLock to Left Control (Optional)
-;
 
 ;=========================================================================
 ; Recommended system-wide setting
@@ -40,13 +44,11 @@ SendMode Input
 ;-------------------------------------------------------------------------
 Pause::Suspend
 
-
 ;-------------------------------------------------------------------------
 ; swap Alt with Win
 ; NOTE: doesn't seem to trigger win key mapping
 ;-------------------------------------------------------------------------
 ;RAlt::RWin
-; 
 
 ;=========================================================================
 ; WINDOWS-Specific
@@ -61,17 +63,17 @@ Pause::Suspend
 ; LCtrl & Tab - cannot use Copy/Paste if using left control
 ; LCtrl & Tab:: AltTab -- this doesn't work in Admin mode in PS, CMD.exe
 ; Use RCtrl so that LCtrl is used for LCtrl-C for Stop, and RCtrl-C for copy
-; if using WInkey, disable this
-;RCtrl & tab:: AltTab
 
-; using WIndows key isntead
-LWin & tab:: AltTab
+RCtrl & tab:: AltTab ; Using RCtrl instead of ALT
+; LWin & tab:: AltTab ; Windows key version
 
+/*
 ; TODO: not sure whether to use LAlt or RAlt???
 ; DOES NOT WORK!!!
 ; Right Alt
 ; VistaSwitcher can do this.  
 ; $>!`::Send ^{tab} 
+*/
 
 ;-------------------------------------------------------------------------
 ; Copy/Cut/Paste using Win key
@@ -82,26 +84,26 @@ LWin & tab:: AltTab
 ;       Perhaps create another key 
 ;       But strangely, Win-A is exclusive, not wildcard 
 ;-------------------------------------------------------------------------
-; WIN+C -> CTRL+C
-#a::^a    ; replace action center
-#c::^c     ; replaces cortana 
-#v::^v      ; replaces notification
-#x::^x     ; replaces quick-link-menu
-#z::^z     ; replaces full-screen menu
-#s::^s     ; replaces search
-#n::^n     ; replaces (undefined)
-#i::^i     ; replaces setting
-#b::^b     ; replaces set focus on notification area
-#f::^f      ; replaces Feedback Hub
-#o::^o      ; replaces Lock-orientation switch 
-#t::^t      ; replaces Cycle through apps on taskbar
-#w::^w      ; replaces (undefined)
-#y::^y      ;REDO in mac, replaces (switch mixed reality)
-#m::WinMinimize,a ; Mac minimize this window; replaces Minimize ALl WIndows
-
-; #u::^u     ; replaces ease of access center
+/*
+;#a::^a    ; replace action center
+;#c::^c     ; replaces cortana 
+;#v::^v      ; replaces notification
+;#x::^x     ; replaces quick-link-menu
+;#z::^z     ; replaces full-screen menu
+;#s::^s     ; replaces search
+;#n::^n     ; replaces (undefined)
+;#i::^i     ; replaces setting
+;#b::^b     ; replaces set focus on notification area
+;#f::^f      ; replaces Feedback Hub
+;#o::^o      ; replaces Lock-orientation switch 
+;#t::^t      ; replaces Cycle through apps on taskbar
+;#w::^w      ; replaces (undefined)
+;#y::^y      ;REDO in mac, replaces (switch mixed reality)
+;#m::WinMinimize,a ; Mac minimize this window; replaces Minimize ALl WIndows
+; ;; #u::^u     ; replaces ease of access center
             ; looks like #u cannot be remapped. 
-; #j, #k set aside for virtual desktop, see below
+; ;;#j, #k set aside for virtual desktop, see below
+*/
 
 ;-------------------------------------------------------------------------
 ; CMD+F = F3, Find and Find Next/prev
@@ -109,11 +111,11 @@ LWin & tab:: AltTab
 ; [CTRL]+[g]
 $>^g::Send {F3}
 ; WinG doesn't work (cannot be mapped?)
-#g::Send {F3}
+;#g::Send {F3}
 
 ; [CTRL]+[G]
 $>^+G::Send {Shift Down}{F3}{Shift Up}
-#+G::Send {F3}
+;#+G::Send {F3}
 
 ;-------------------------------------------------------------------------
 ; Quit, [CTRL]+[q]
@@ -121,7 +123,7 @@ $>^+G::Send {Shift Down}{F3}{Shift Up}
 ; Alt+F4  OR Alt+Space C
 ;$!q::Send {Alt Down}{F4}{Alt Up} ; doesn't work see {below}'
 $>^q::Send !{f4}
-#q::Send !{f4}
+;#q::Send !{f4}
 
 ; this could also be Ctrl+F4, but not sure which one is more compatible
 
@@ -141,9 +143,10 @@ RCtrl & down::Send ^{end}
 ; Don't use this as it also captures Windows key
 >^right::Send {end} 
 
-; Win-J, WIn-K is Home/End
-#j::Send ^{home} 
-#k::Send ^{end} 
+;   WIN KEY version
+;   Win-J, WIn-K is Home/End
+;#j::Send ^{home} 
+;#k::Send ^{end} 
 
 ;===========================================================================
 ; Virtual Desktop deskspace - 
@@ -166,12 +169,18 @@ AppsKey::#Tab
 ;RCtrl & Tab::send #A
 
 ; weird, works with right ctrl, but not left
-^#]::^#Right
-^#[::^#Left
+;^]::^#Right
+$>^]::^#Right
+$>^[::^#Left
 
 ;===========================================================================
 ; Remap Caps Lock in Windows (escape *and* control) https://superuser.com/a/581988
 ;===========================================================================
+; switch capslock with control just in case it didn't
+; only because Leopold kb is switched
+; was using L/RCtrl instead of Ctrl to avoid loops (from LCtrl -double function)
+Capslock::Ctrl
+
 ; uses hardware switch 
 ; but capslock (no matter where it is) should be ctrl
 ; in case of Leopold keyboard, it switches Capslock with Ctrl
@@ -189,50 +198,32 @@ AppsKey::#Tab
 ;         Send {Blind}{Ctrl Up}
 ; Return
 
-;
+
 ;===========================================================================
 ; DUal function - CTRL as both ESC and CTRL
 ;===========================================================================
+;-------------------------------------------------------
 ; LCtrl - dual function - original, but not working well
-*LCtrl::
-    Send {Blind}{LCtrl Down}
-    cDown := A_TickCount
-Return
-
-*LCtrl up::
-    If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
-        Send {Blind}{LCtrl Up}{Esc}
-    Else
-        Send {Blind}{LCtrl Up}
-Return
-
-; also for Non-programmable keyboard, Win needs to set Capslock to CTRL
-; in registry. 
-
-; double-function key - disabled for now, using lctrl instead
-; *CapsLock::
-;     Send {Blind}{Ctrl Down}
+; use this only if the trick* doesn't work
+;-------------------------------------------------------
+; *LCtrl::
+;     Send {Blind}{LCtrl Down}
 ;     cDown := A_TickCount
 ; Return
-
-; *CapsLock up::
+; 
+; *LCtrl up::
 ;     If ((A_TickCount-cDown)<200)  ; Modify press time as needed (milliseconds)
-;         Send {Blind}{Ctrl Up}{Esc}
+;         Send {Blind}{LCtrl Up}{Esc}
 ;     Else
-;         Send {Blind}{Ctrl Up}
+;         Send {Blind}{LCtrl Up}
 ; Return
-
-;Assumption: 
-; CAPSLOCK has been mapped physically to CTRL, either with keyboard switch
-; or with registry hack on windows
-
-; switch capslock with control just in case it didn't
-; only because Leopold kb is switched
-; was using L/RCtrl instead of Ctrl to avoid loops (from LCtrl -double function)
-Capslock::Ctrl
-
-; My try - it works for some reason, but only on hardware CTRL (unmapped)
-;LCtrl::Send {esc}
+;-------------------------------------------------------
+; NOTE: trick* - it works for some reason, but only on hardware CTRL (unmapped)
+; for weird reason it works as momentary ESC/CTRL
+; sometimes LCtrl works. Sometimes CTRL works
+;-------------------------------------------------------
+;LCtrl::Send {esc}   ;sometimes this works (Leopold)
+Ctrl::Send {esc}    ; now this works (normal keyboard)
 
 ;===========================================================================
 ; Shift only as ( )
@@ -258,22 +249,23 @@ Capslock::Ctrl
 ; Alt-backtick , just like Mac
 ; https://superuser.com/a/768060
 ;===========================================================================
-;!`::    ; Next window
 ;^ESC::    ; Next window ; For Leopold keyboard only (ESC was mapped to ~)
-#`::    ; Next window
-WinGetClass, ActiveClass, A
-WinGet, WinClassCount, Count, ahk_class %ActiveClass%
-IF WinClassCount = 1
-    Return
-Else
-WinSet, Bottom,, A
-WinActivate, ahk_class %ActiveClass%
+;#`::    ; Next window if using Win-backtick 
+!`::    ; Next window if using Ctrl-backtick
+    WinGetClass, ActiveClass, A
+    WinGet, WinClassCount, Count, ahk_class %ActiveClass%
+    IF WinClassCount = 1
+        Return
+    Else
+    WinSet, Bottom,, A
+    WinActivate, ahk_class %ActiveClass%
 return
 
 ;^+ESC::    ; Last window; Leopold keyboard
-#+`::    ; 
-WinGetClass, ActiveClass, A
-WinActivateBottom, ahk_class %ActiveClass%
+; #+`::    ;Win-backtick 
+!+`::    ; Next window if using Ctrl-backtick
+    WinGetClass, ActiveClass, A
+    WinActivateBottom, ahk_class %ActiveClass%
 return
 
 ;===========================================================================
@@ -290,20 +282,23 @@ return
 ;===========================================================================
 ; App-specific
 ;===========================================================================
-; TAB on Chrome tab, and others... doesn't work on all
-; TODO: make it app-specific...
+;-------------------------------------------------------------------------
 ; [CTRL]+[]] and [CTRL]+[[]
+; TAB on Chrome tab, and others... doesn't work on all
 ; Mac: Cmd+Shift+] or [ go to next/prev tabs
 ; Win: Ctrl+Tab, Ctrl+Shift+Tab
-; Key difference
-#}::Send ^{Tab}
-#{::Send ^+{Tab}
+;-------------------------------------------------------------------------
+; #}::Send ^{Tab}
+; #{::Send ^+{Tab}
 
 ; If using ctrl instead
-; ^+]::Send ^{Tab}
-; ^+[::Send ^+{Tab}
-^}::Send ^{Tab}
-^{::Send ^+{Tab}
+; ^}::Send ^{Tab}
+; ^{::Send ^+{Tab}
+;$^+]::Send ^{Tab}
+;$^+[::Send ^+{Tab}
+; Must have $ or else it will call ^+] as well
+$^}::Send ^{Tab}
+$^{::Send ^+{Tab}
 
 ;SetTitleMatchMode 2 ;- Mode 2 is window title substring.
 ;#IfWinActive, OneNote ; Only apply this script to onenote.
@@ -313,10 +308,9 @@ return
 ;-------------------------------------------------------------------------
 #IfWinActive, ahk_class Chrome_WidgetWin_1
 ; Show Web Developer Tools with cmd + alt + i
-#!i::Send {F12}
+^!i::Send {F12}
 ; Show source code with cmd + alt + u
-#^u::Send ^u
-
+;#^u::Send ^u ;howeer, cannot map #u?
 
 ;-------------------------------------------------------------------------
 ; Vim, GVim
@@ -327,6 +321,10 @@ $>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
 $>^v::Send {Shift down}{Insert}{Shift Up} 
 $>^x::Send {Shift Down}{Del}{Shift Up}
 ;#space::MsgBox "Pressed Win+Space in VIM"
+;#c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+; better paste, works with terminal, but doesn't work with Explorer
+;#v::Send {Shift down}{Insert}{Shift Up} 
+;#x::Send {Shift Down}{Del}{Shift Up}
 
 ;-------------------------------------------------------------------------
 ; Mintty, Cygwin, 
@@ -345,5 +343,3 @@ $>^x::Send {Shift Down}{Del}{Shift Up}
 
 #IfWinActive
 ; Nothing else below
-
-
