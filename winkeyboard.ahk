@@ -251,7 +251,7 @@ Ctrl::Send {esc}    ; now this works (normal keyboard)
 ;===========================================================================
 ;^ESC::    ; Next window ; For Leopold keyboard only (ESC was mapped to ~)
 ;#`::    ; Next window if using Win-backtick 
-!`::    ; Next window if using Ctrl-backtick
+^`::    ; Next window if using Ctrl-backtick
     WinGetClass, ActiveClass, A
     WinGet, WinClassCount, Count, ahk_class %ActiveClass%
     IF WinClassCount = 1
@@ -263,7 +263,7 @@ return
 
 ;^+ESC::    ; Last window; Leopold keyboard
 ; #+`::    ;Win-backtick 
-!+`::    ; Next window if using Ctrl-backtick
+^+`::    ; Next window if using Ctrl-backtick
     WinGetClass, ActiveClass, A
     WinActivateBottom, ahk_class %ActiveClass%
 return
