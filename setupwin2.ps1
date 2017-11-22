@@ -202,7 +202,7 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
 
 #choco install cygwin -y  # automatically installed by cyg-get?
 choco install cyg-get -y
-cyg-get git zip unzip vim zsh python curl
+cyg-get git zip unzip vim zsh python curl tree
 
 # CONTINUE HERE!!!
 $cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
