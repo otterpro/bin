@@ -10,4 +10,5 @@ outputfile="${1%.mp4}_delay.mp4"
 # example
 #ffmpeg -i test.mp4 -itsoffset 0.5 -i test.mp4 -map 0:0 -map 1:1 -vcodec copy -acodec copy output.mp4
 #echo "-itsoffset ${2:-0.5} -i"
+# ffmpeg -i "$1" -itsoffset ${2:-0.5} -i "$1" -map 0:0 -map 1:1 -vcodec copy -acodec copy "$outputfile"
 ffmpeg -i "$1" -itsoffset ${2:-0.5} -i "$1" -map 0:0 -map 1:1 -vcodec copy -acodec copy "$outputfile"
