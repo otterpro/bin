@@ -1,4 +1,5 @@
 #!/bin/sh
+# currently not used??? all running from upload.sh in ~/blog-hugo/ instead.
 cd ~/blog-hugo/
 # clean existing public dir for now
 

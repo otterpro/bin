@@ -119,7 +119,6 @@ Get-NetFirewallRule -DisplayName "Remote Desktop*" | Set-NetFirewallRule -enable
 # Enable PING
 Get-NetFirewallRule -DisplayName "*File and Printer Sharing (Echo Request - ICMPv4-In)*" | Set-N etFirewallRule -enabled true
 
-
 # Enable File and Printer Sharing - also be able to see \\COMPUTER
 # TODO/FUTURE: array of folders on top, and create dir and share here
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
@@ -127,7 +126,6 @@ netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=
 # optional: add sharing SMB
     # mkdir "C:\Shared"   #same as New-Item -path "C:\Shared"
     # New-SMBShare –Name “My_Shared” –Path “C:\Shared” –FullAccess Administrator -Confirm:$false
-
 
 #===========================================================================
 # Explorer: show Hidden files and show all extensions
@@ -183,7 +181,12 @@ if (!$propValue) {  #if reg value doesn't exist
 
 #===========================================================================
 # create symbolic link for PS profile (includes aliases, etc)
-#===========================================================================
+#  ~/bin/profile.ps1 ==> C:\Users\<USERNAME>\Documents\WindowsPowershell\profile.ps1
+#  * Warning: Make sure not to delete existing profile.ps1, 
+#  * esp if working on other's PC (or based on company's policy)
+# TODO: move profile.ps1 from bin/ to .dotfiles/ instead...
+#       * But also need to move this part into setupwin4.ps1
+#=========================================================================== 
 # assuming my dotfiles have been installed!
 
 #original intent: 

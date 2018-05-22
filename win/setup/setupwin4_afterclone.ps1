@@ -11,7 +11,8 @@ $cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
 #&"$cygwinBin\bash.exe" "$DotfileTargetPath\dotfiles.sh"
 
 #===========================================================================
-# link .vim, .vimrc, .gvim
+# symlink .vim, .vimrc, .gvim
+# symlink cygwin's ~/ to Win's ~/cyghome/
 # NOTE: must install cygwin and git clone /bin first!!!
 #===========================================================================
 $cygwinHomeDir="$env:ChocolateyToolsLocation\cygwin\home\$env:username"
