@@ -29,6 +29,21 @@ Write-Host "windows user's personal setup"
 # [Environment]::SetEnvironmentVariable("MYVIMRC", "C:\Cygwin64\home\$env:username", "User")
 
 # Must cd into install/dotfiles/bin folder (haven't decided where to put this)
+
+#===========================================================================
+# Enable Developer Mode (may require reboot?)
+# [powershell - Enable Windows 10 Developer Mode programmatically - Stack Overflow](https://stackoverflow.com/questions/40033608/enable-windows-10-developer-mode-programmatically?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
+#===========================================================================
+
+	# Create AppModelUnlock if it doesn't exist, required for enabling Developer Mode
+	$RegistryKeyPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"
+	if (-not(Test-Path -Path $RegistryKeyPath)) {
+	    New-Item -Path $RegistryKeyPath -ItemType Directory -Force
+	}
+	
+	# Add registry value to enable Developer Mode
+	New-ItemProperty -Path $RegistryKeyPath -Name AllowDevelopmentWithoutDevLicense -PropertyType DWORD -Value 1
+# 
 #===========================================================================
 # Chocolatey
 #===========================================================================
@@ -178,23 +193,6 @@ if (!$propValue) {  #if reg value doesn't exist
 
 # TODO: git clone my dotfiles and cd into that folder 
 # then do the following
-
-#===========================================================================
-# create symbolic link for PS profile (includes aliases, etc)
-#  ~/bin/profile.ps1 ==> C:\Users\<USERNAME>\Documents\WindowsPowershell\profile.ps1
-#  * Warning: Make sure not to delete existing profile.ps1, 
-#  * esp if working on other's PC (or based on company's policy)
-# TODO: move profile.ps1 from bin/ to .dotfiles/ instead...
-#       * But also need to move this part into setupwin4.ps1
-#=========================================================================== 
-# assuming my dotfiles have been installed!
-
-#original intent: 
-#   New-Item -path $profile -ItemType SymbolicLink -Value C:\cygwin64\home\DKim\bin\Microsoft.PowerShell_profile.ps1
-if (!(Test-Path -Path $profile.CurrentUserAllHosts)) { 
-    Write-Host "creating symbolic link for PS profile"
-    New-Item -path $profile.CurrentUserAllHosts -ItemType SymbolicLink -Value "$PSScriptRoot\profile.ps1"
-}
 
 #===========================================================================
 # TODO: install cygwin and then git clone my repository first!!!
