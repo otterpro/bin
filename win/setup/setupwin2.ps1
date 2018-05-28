@@ -207,10 +207,12 @@ cyg-get git zip unzip vim zsh python curl tree
 
 # CONTINUE HERE!!!
 $cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
+$cygwinHomeDir="$env:ChocolateyToolsLocation\cygwin\home\$env:username"
 
 # cygwin has to run at least once, as it creates username and home directory
 # not sure if this will work... hopefully it's not interactive???  icon has mintty.exe -i (-i = ???)
 &"$cygwinBin\mintty.exe"
+
 
 #===========================================================================
 # emacs : set $HOME (for domain user only), as it has problem finding it

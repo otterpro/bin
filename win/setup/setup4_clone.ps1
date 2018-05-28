@@ -3,29 +3,30 @@ $cygwinBin="$env:ChocolateyToolsLocation\cygwin\bin"
 $cygwinHomeDir="$env:ChocolateyToolsLocation\cygwin\home\$env:username"
 
 #===========================================================================
-# dotfiles 
-# UNTESTED!!!  THIS SHOULD BE IN DOS SCRIPT
-# unfortunately, it can't easily do git clone, so dotfiles will have to be done separately
+# clone / install dotfiles 
+# 1. run ~/bin/setup/clone_dotfiles.sh (which does "git clone")
+#   * create SSH key  (so I can SSH and also use GIT)
+#   * git clone .dotfiles notes etc
+# 2. run ~/.dotfiles/dotfiles.sh
+# 3. create symlink ~/.ssh/ => home\.ssh\ (so it can share ssh keys with other apps)
 #===========================================================================
+& $cygwinBin\bash.exe $cygwinHomeDir\bin\setup\clone_dotfiles.sh
+& $cygwinBin\bash.exe $cygwinHomeDir\.dotfiles\dotfiles.sh
 
-#$DotfileTargetPath="$env:ChocolateyToolsLocation\cygwin\home\$env:username\.dotfiles"
-#$DotfileTargetPath="/home/otter/.dotfiles"
-
-#&"$cygwinBin\git.exe" clone https://github.com/otterpro/dotfiles.git $DotfileTargetPath
-#&"$cygwinBin\bash.exe" "$DotfileTargetPath\dotfiles.sh"
-
-#===========================================================================
-# create SSH key  (so I can SSH and also use GIT)
-#===========================================================================
-& $cygwinBin\bash.exe $cygwinHomeDir\bin\setup\make_sshkey.sh
-# create symlink: cygwin's home .ssh/ ==> Windows home .ssh/
-#     so that Git for Bash as well as other Git/SSH clients can use SSH keys
+# & $cygwinBin\bash.exe $cygwinHomeDir\bin\setup\make_sshkey.sh
 New-Item -Path  "$env:USERPROFILE\.ssh\"  -ItemType SymbolicLink -Value "$cygwinHomeDir\.ssh\"
+# create symlink: cygwin's home .ssh/ ==> Windows home .ssh/
+# OLD
+# $DotfileTargetPath="$env:ChocolateyToolsLocation\cygwin\home\$env:username\.dotfiles"
+# $DotfileTargetPath="/home/otter/.dotfiles"
+#
+# &"$cygwinBin\git.exe" clone https://github.com/otterpro/dotfiles.git $DotfileTargetPath
+# &"$cygwinBin\bash.exe" "$DotfileTargetPath\dotfiles.sh"
 
 #===========================================================================
 # symlink .vim, .vimrc, .gvim
 # symlink cygwin's ~/ to Win's ~/cyghome/
-# NOTE: must install cygwin and git clone /bin first!!!
+# prerequisite: cygwin and .dotfiles/ (and maybe win VIM)
 #===========================================================================
 New-Item -Path  "$env:USERPROFILE\.vimrc" -ItemType SymbolicLink -Value "$cygwinHomeDir\.dotfiles\.vimrc"
 Move-Item -Path "$env:USERPROFILE\vimfiles\" "$env:USERPROFILE\vimfiles_old\"
@@ -52,3 +53,9 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
     Write-Host "creating symbolic link for PS profile"
     New-Item -path $profile.CurrentUserAllHosts -ItemType SymbolicLink -Value "$PSScriptRoot\profile.ps1"
 }
+
+#===========================================================================
+# 1. symlink ~/bin 
+# 2. add ~/bin/win/ to %PATH%
+#===========================================================================
+New-Item -Path  "$env:USERPROFILE\bin\" -ItemType SymbolicLink -Value "$cygwinHomeDir\bin\"

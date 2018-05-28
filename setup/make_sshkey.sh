@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # generate SSH KEY
 if [[ -f $HOME/.ssh/id_rsa ]]; then 
-	echo "ssh key already exists.  EXITING."
-	exit 0
+	echo "SSH key already exists."
 else 
-	echo "generating SSH"
+
+	echo "new SSH key generated."
 	/usr/bin/env ssh-keygen -t rsa -C "codequickly@gmail.com" -P "" -f $HOME/.ssh/id_rsa
-	echo "SSH public key:"
-	echo $HOME/.ssh/id_rsa.pub
 
 fi
+
+echo "Add this SSH public key to Github and Bitbucket:"
+echo $HOME/.ssh/id_rsa.pub
