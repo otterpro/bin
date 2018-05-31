@@ -59,3 +59,6 @@ if (!(Test-Path -Path $profile.CurrentUserAllHosts)) {
 # 2. add ~/bin/win/ to %PATH%
 #===========================================================================
 New-Item -Path  "$env:USERPROFILE\bin\" -ItemType SymbolicLink -Value "$cygwinHomeDir\bin\"
+# Add `$home/tool/` to user's `$PATH` (Local, recommended, no need to be admin)
+$UserPath = [Environment]::GetEnvironmentVariable("Path","User") 
+[Environment]::SetEnvironmentVariable("Path", $UserPath + ";$($env:userprofile)\bin\win", "User")
