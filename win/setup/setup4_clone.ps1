@@ -11,7 +11,7 @@ $cygwinHomeDir="$env:ChocolateyToolsLocation\cygwin\home\$env:username"
 # 3. create symlink ~/.ssh/ => home\.ssh\ (so it can share ssh keys with other apps)
 #===========================================================================
 & $cygwinBin\bash.exe $cygwinHomeDir\bin\setup\clone_dotfiles.sh
-& $cygwinBin\bash.exe $cygwinHomeDir\.dotfiles\dotfiles.sh
+& $cygwinBin\bash.exe $cygwinHomeDir\.dotfiles\install_dotfiles.sh
 
 # & $cygwinBin\bash.exe $cygwinHomeDir\bin\setup\make_sshkey.sh
 New-Item -Path  "$env:USERPROFILE\.ssh\"  -ItemType SymbolicLink -Value "$cygwinHomeDir\.ssh\"
