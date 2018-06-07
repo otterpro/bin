@@ -78,12 +78,13 @@ RCtrl & tab:: AltTab ; Using RCtrl instead of ALT
 
 ;-------------------------------------------------------------------------
 ; Copy/Cut/Paste using ALT key
-!a::Send ^a    
-!c::Send ^c
-!v::Send ^v
-!x::Send ^x
-!z::Send ^z
-!t::Send ^t
+$!a::Send ^a    
+$!c::Send ^c
+$!v::Send ^v
+$!x::Send ^x
+$!z::Send ^z
+$!t::Send ^t
+$!l::Send ^l
 
 ; alt-w => ctrl-w
 $!w::Send ^w
@@ -333,6 +334,8 @@ return
 $^}::Send ^{Tab}
 $^{::Send ^+{Tab}
 
+$!}::Send ^{Tab}
+$!{::Send ^+{Tab}
 ;-------------------------------------------------------------------------
 ; Firefox
 ;-------------------------------------------------------------------------
@@ -340,24 +343,33 @@ $^{::Send ^+{Tab}
 $^}::Send ^{Tab}
 $^{::Send ^+{Tab}
 
+$!}::Send ^{Tab}
+$!{::Send ^+{Tab}
 
 ;-------------------------------------------------------------------------
 ; Vim, GVim
 ;-------------------------------------------------------------------------
 #IfWinActive ahk_class Vim
-$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+; $>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+; ; better paste, works with terminal, but doesn't work with Explorer
+; $>^v::Send {Shift down}{Insert}{Shift Up} 
+; $>^x::Send {Shift Down}{Del}{Shift Up}
+
+; Copy, paste, cut in WinVim
+; same as above, but use either ctrl
+$!c:: Send {Ctrl Down}{Insert}{Ctrl Up}
 ; better paste, works with terminal, but doesn't work with Explorer
-$>^v::Send {Shift down}{Insert}{Shift Up} 
-$>^x::Send {Shift Down}{Del}{Shift Up}
+$!v::Send {Shift down}{Insert}{Shift Up} 
+$!x::Send {Shift Down}{Del}{Shift Up}
 ;#space::MsgBox "Pressed Win+Space in VIM"
 ;#c:: Send {Ctrl Down}{Insert}{Ctrl Up}
 ; better paste, works with terminal, but doesn't work with Explorer
 ;#v::Send {Shift down}{Insert}{Shift Up} 
 ;#x::Send {Shift Down}{Del}{Shift Up}
 
-; this cannot be done in vimrc since [,] cannot be mapped using ctrl
-$^}::Send {Esc}:tabn{Enter}
-$^{::Send {Esc}:tabp{Enter}
+; this cannot be done in vimrc since {,[ cannot be mapped using ctrl
+$!}::Send {Esc}:tabn{Enter}
+$!{::Send {Esc}:tabp{Enter}
 
 ;-------------------------------------------------------------------------
 ; Mintty, Cygwin, 
@@ -381,11 +393,14 @@ $>^x::Send {Shift Down}{Del}{Shift Up}
 ; change new-console to ctrl-t
 ; disable "install keyboard hooks"
 ;-------------------------------------------------------------------------
-; #IfWinActive ahk_class VirtualConsoleClass
-; $^}::send #Q
+#IfWinActive ahk_class VirtualConsoleClass
+$!q::Send #{f4}
+; $^}::send 
 ; $^{::send #q
 ;;Won't work because #q is reserved.
-
+; only works one direction for now... 
+$!}::Send ^+{Tab}
+$!{::Send ^+{Tab}
 
 #IfWinActive
 ; Nothing else below
