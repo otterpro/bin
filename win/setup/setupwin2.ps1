@@ -82,6 +82,7 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     choco install ripgrep -y
     choco install ag -y
     choco install fzf -y
+    choco install greenshot -y
     # utils
     choco install bginfo -y
     # broken?

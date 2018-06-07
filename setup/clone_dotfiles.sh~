@@ -11,4 +11,4 @@ git clone ssh://github.com/otterpro/dotfiles.git ~/.dotfiles
 # git clone ssh://github.com/otterpro/bin.git ~/bin
 
 # TODO: notes (optional)
-#git clone otterpro@bitbucket.org:otterpro/notes.git ~/notes
+git clone otterpro@bitbucket.org:otterpro/notes.git ~/notes

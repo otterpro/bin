@@ -19,9 +19,10 @@
 ; SharpKeys: 
 ; TODO: we can set registry here usig RegRead/RegWrite!
 ;-------------------------------------------------------------------------
+; remap CapsLock to Left Control (Optional)
+
 ; Remap Left Alt to Right Control!!!
 ; to avoid collision with autohotkey scripts
-;   remap CapsLock to Left Control (Optional)
 ; NOTE: possibly map to RIGHT WIN/ALT instead?
 ; OLD: tried using Winkey as thumb key
 ; but Swapping Windows key does not work in RDP
@@ -76,6 +77,17 @@ RCtrl & tab:: AltTab ; Using RCtrl instead of ALT
 */
 
 ;-------------------------------------------------------------------------
+; Copy/Cut/Paste using ALT key
+!a::Send ^a    
+!c::Send ^c
+!v::Send ^v
+!x::Send ^x
+!z::Send ^z
+!t::Send ^t
+
+; alt-w => ctrl-w
+$!w::Send ^w
+;-------------------------------------------------------------------------
 ; Copy/Cut/Paste using Win key
 ; 
 ; NOTE: how to use Win key exclusively? don't know
@@ -123,6 +135,7 @@ $>^+G::Send {Shift Down}{F3}{Shift Up}
 ; Alt+F4  OR Alt+Space C
 ;$!q::Send {Alt Down}{F4}{Alt Up} ; doesn't work see {below}'
 $>^q::Send !{f4}
+;$!w::Send !{f4}
 ;#q::Send !{f4}
 
 ; this could also be Ctrl+F4, but not sure which one is more compatible
@@ -175,6 +188,7 @@ AppsKey::#Tab
 
 ;===========================================================================
 ; Remap Caps Lock in Windows (escape *and* control) https://superuser.com/a/581988
+; However, it won't be able to do momentary ESCAPE
 ;===========================================================================
 ; switch capslock with control just in case it didn't
 ; only because Leopold kb is switched
@@ -199,7 +213,7 @@ Capslock::Ctrl
 ; Return
 
 
-;===========================================================================
+;=========================================================================== 
 ; DUal function - CTRL as both ESC and CTRL
 ;===========================================================================
 ;-------------------------------------------------------
@@ -251,7 +265,8 @@ Ctrl::Send {esc}    ; now this works (normal keyboard)
 ;===========================================================================
 ;^ESC::    ; Next window ; For Leopold keyboard only (ESC was mapped to ~)
 ;#`::    ; Next window if using Win-backtick 
-^`::    ; Next window if using Ctrl-backtick
+;^`::    ; Next window if using Ctrl-backtick
+!`::    ; Next window if using alt-backtick
     WinGetClass, ActiveClass, A
     WinGet, WinClassCount, Count, ahk_class %ActiveClass%
     IF WinClassCount = 1
@@ -324,6 +339,7 @@ $^{::Send ^+{Tab}
 #IfWinActive ahk_class MozillaWindowClass
 $^}::Send ^{Tab}
 $^{::Send ^+{Tab}
+
 
 ;-------------------------------------------------------------------------
 ; Vim, GVim
