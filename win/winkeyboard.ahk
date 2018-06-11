@@ -83,8 +83,11 @@ $!c::Send ^c
 $!v::Send ^v
 $!x::Send ^x
 $!z::Send ^z
+; alt-tab, shift-alt tab
 $!t::Send ^t
+$!+t::Send ^+t
 $!l::Send ^l
+$!f::Send ^f
 
 ; alt-w => ctrl-w
 $!w::Send ^w
