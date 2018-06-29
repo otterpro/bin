@@ -88,6 +88,7 @@ $!t::Send ^t
 $!+t::Send ^+t
 $!l::Send ^l
 $!f::Send ^f
+$!n::Send ^n
 
 ; alt-w => ctrl-w
 $!w::Send ^w
@@ -286,6 +287,18 @@ return
     WinGetClass, ActiveClass, A
     WinActivateBottom, ahk_class %ActiveClass%
 return
+
+;===========================================================================
+; Numeric keypad
+;===========================================================================
+NumpadSub::Send {Volume_Up} 
+NumpadAdd::Send {Volume_Down} 
+
+; Calculator button
+Launch_App2::Send {Volume_Down}  
+
+
+
 
 ;===========================================================================
 ; Function / media keys

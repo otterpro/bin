@@ -50,7 +50,7 @@ elif [[ "$OSTYPE" == "cygwin" ]]; then
 	# enable symlink in cygwin!!! this is needed for "ln -s" later here...
 	export CYGWIN="winsymlinks:nativestrict"
 
-	choco install vscode -y
+	# choco install vscode -y
 	# ??? assuming that choco can be run from cygwin bash shell!
 
 	# * Windows %APPDATA%\Code\User\settings.json
@@ -60,7 +60,7 @@ elif [[ "$OSTYPE" == "cygwin" ]]; then
 	# ln -sf ~/.dotfiles/_optional/VSCode/snippets/ ~/Library/Application\ Support/Code/User/snippets
 	ln -sf "$vscode_dotfile_path/settings.json" "$win_vscode_path/settings.json"
 	ln -sf "$vscode_dotfile_path/keybindings.json" "$win_vscode_path/keybindings.json"
-	ln -sf "$vscode_dotfile_path/snippets/" "$win_vscode_path/snippets"
+	ln -sf "$vscode_dotfile_path/snippets/" "$win_vscode_path/"
 	
 else
     echo "Don't know what to do with '$OSTYPE' operating system. Need to implement this"
