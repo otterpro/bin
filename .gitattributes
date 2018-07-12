@@ -1,0 +1,6 @@
+*.sh eol=lf
+*.ps1 eol=lf
+*.vim eol=lf
+*.md eol=lf
+.* eol=lf
+
