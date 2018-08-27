@@ -366,10 +366,11 @@ $!{::Send ^+{Tab}
 ; Vim, GVim
 ;-------------------------------------------------------------------------
 #IfWinActive ahk_class Vim
-; $>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
-; ; better paste, works with terminal, but doesn't work with Explorer
-; $>^v::Send {Shift down}{Insert}{Shift Up} 
-; $>^x::Send {Shift Down}{Del}{Shift Up}
+; Right control + C/V/X
+$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+; better paste, works with terminal, but doesn't work with Explorer
+$>^v::Send {Shift down}{Insert}{Shift Up} 
+$>^x::Send {Shift Down}{Del}{Shift Up}
 
 ; Copy, paste, cut in WinVim
 ; same as above, but use either ctrl
@@ -386,6 +387,10 @@ $!x::Send {Shift Down}{Del}{Shift Up}
 ; this cannot be done in vimrc since {,[ cannot be mapped using ctrl
 $!}::Send {Esc}:tabn{Enter}
 $!{::Send {Esc}:tabp{Enter}
+
+; same as above, but with ctrl instead of ALT
+$^}::Send {Esc}:tabn{Enter}
+$^{::Send {Esc}:tabp{Enter}
 
 ;-------------------------------------------------------------------------
 ; Mintty, Cygwin, 
