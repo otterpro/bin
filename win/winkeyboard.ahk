@@ -349,7 +349,7 @@ return
 ;SetTitleMatchMode 2 ;- Mode 2 is window title substring.
 ;#IfWinActive, OneNote ; Only apply this script to onenote.
 
-;-------------------------------------------------------------------------
+;=========================================================================
 ; Google Chrome
 ;-------------------------------------------------------------------------
 #IfWinActive, ahk_class Chrome_WidgetWin_1
@@ -362,7 +362,8 @@ $^{::Send ^+{Tab}
 
 $!}::Send ^{Tab}
 $!{::Send ^+{Tab}
-;-------------------------------------------------------------------------
+
+;=========================================================================
 ; Firefox
 ;-------------------------------------------------------------------------
 #IfWinActive ahk_class MozillaWindowClass
@@ -372,37 +373,47 @@ $^{::Send ^+{Tab}
 $!}::Send ^{Tab}
 $!{::Send ^+{Tab}
 
-;-------------------------------------------------------------------------
+;=========================================================================
 ; Vim, GVim
 ;-------------------------------------------------------------------------
 #IfWinActive ahk_class Vim
-; Right control + C/V/X
-$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
-; better paste, works with terminal, but doesn't work with Explorer
-$>^v::Send {Shift down}{Insert}{Shift Up}
-$>^x::Send {Shift Down}{Del}{Shift Up}
+;--------------------------------------------
+; Cut,copy,paste
+;Copy, paste, cut in WinVim
+;using Right control + C/V/X
+;{Shift down}{Insert}{Shift Up} is causing problem with shift getting stuck
+;$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+;$>^v::Send {Shift down}{Insert}{Shift Up}
+;$>^x::Send {Shift Down}{Del}{Shift Up}
+; so instead, use +{Insert} instead
+$>^c:: Send ^{Insert}
+$>^v::Send +{Insert}
+$>^x::Send +{Del}
 
-; Copy, paste, cut in WinVim
-; same as above, but use either ctrl
-$!c:: Send {Ctrl Down}{Insert}{Ctrl Up}
-; better paste, works with terminal, but doesn't work with Explorer
-$!v::Send {Shift down}{Insert}{Shift Up}
-$!x::Send {Shift Down}{Del}{Shift Up}
+;; Use ALT+C/V/X
+;$!c:: Send {Ctrl Down}{Insert}{Ctrl Up}
+;; better paste, works with terminal, but doesn't work with Explorer
+;$!v::Send {Shift down}{Insert}{Shift Up}
+;$!x::Send {Shift Down}{Del}{Shift Up}
+
+;; Use WIN+C/V/X
 ;#space::MsgBox "Pressed Win+Space in VIM"
 ;#c:: Send {Ctrl Down}{Insert}{Ctrl Up}
 ; better paste, works with terminal, but doesn't work with Explorer
 ;#v::Send {Shift down}{Insert}{Shift Up}
 ;#x::Send {Shift Down}{Del}{Shift Up}
-
+;--------------------------------------------
+; SWITCH TAB
 ; this cannot be done in vimrc since {,[ cannot be mapped using ctrl
-$!}::Send {Esc}:tabn{Enter}
-$!{::Send {Esc}:tabp{Enter}
-
-; same as above, but with ctrl instead of ALT
+;; ALT+}, ALT+{
+;$!}::Send {Esc}:tabn{Enter}
+;$!{::Send {Esc}:tabp{Enter}
+; using ctrl instead of ALT
+; CTRL+}, CTRL+{
 $^}::Send {Esc}:tabn{Enter}
 $^{::Send {Esc}:tabp{Enter}
 
-;-------------------------------------------------------------------------
+;=========================================================================
 ; Mintty, Cygwin,
 ;-------------------------------------------------------------------------
 #IfWinActive ahk_class mintty
@@ -417,7 +428,7 @@ $>^x::Send {Shift Down}{Del}{Shift Up}
 ; hotkey for Everything (currently set to Win+Shift+F)
 ; RCtrl & space::Send #F
 
-;-------------------------------------------------------------------------
+;=========================================================================
 ; ConEmu
 ; Better to set hotkey in ConEmu setting
 ; change switch-next-Console, console-prev to ctrl-shift [,]
