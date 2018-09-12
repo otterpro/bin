@@ -18,7 +18,9 @@ mac_vscode_path="$HOME/Library/Application Support/Code/User"
 win_vscode_path="$(cygpath "$APPDATA")/Code/User"
 linux_vscode_path="$HOME/.config/Code/User"
 
-vscode_dotfile_path="$HOME/.dotfiles/_optional/VSCode"
+# changed path (removed _optional/ as it seemed redundant at this time)
+# vscode_dotfile_path="$HOME/.dotfiles/_optional/VSCode"
+vscode_dotfile_path="$HOME/.dotfiles/VSCode"
 
 #cd into script's path
 cd $(dirname $0) ; pwd -P
