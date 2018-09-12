@@ -417,10 +417,9 @@ $^{::Send {Esc}:tabp{Enter}
 ; Mintty, Cygwin,
 ;-------------------------------------------------------------------------
 #IfWinActive ahk_class mintty
-$>^c:: Send {Ctrl Down}{Insert}{Ctrl Up}
-; better paste, works with terminal, but doesn't work with Explorer
-$>^v::Send {Shift down}{Insert}{Shift Up}
-$>^x::Send {Shift Down}{Del}{Shift Up}
+$>^c:: Send ^{Insert}
+$>^v::Send +{Insert}
+$>^x::Send +{Del}
 ;#space::MsgBox "Pressed Win+Space in Mintty"
 
 ; Everything Search App
@@ -441,8 +440,10 @@ $!q::Send #{f4}
 ; $^{::send #q
 ;;Won't work because #q is reserved.
 ; only works one direction for now...
-$!}::Send ^+{Tab}
-$!{::Send ^+{Tab}
+; $!}::Send ^+{Tab}
+; $!{::Send ^+{Tab}
+$^}::Send ^+{Tab}
+$^{::Send ^+{Tab}
 
 #IfWinActive
 ; Nothing else below
