@@ -1,0 +1,1 @@
+/Applications/synergy-1.3.1/synergys -f --config /Applications/synergy-1.3.1/synergy.conf 
