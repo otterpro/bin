@@ -20,7 +20,7 @@ linux_vscode_path="$HOME/.config/Code/User"
 
 # changed path (removed _optional/ as it seemed redundant at this time)
 # vscode_dotfile_path="$HOME/.dotfiles/_optional/VSCode"
-vscode_dotfile_path="$HOME/.dotfiles/VSCode"
+vscode_dotfile_path="$HOME/.dotfiles/_VSCode"
 
 #cd into script's path
 cd $(dirname $0) ; pwd -P
