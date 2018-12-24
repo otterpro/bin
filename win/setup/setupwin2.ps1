@@ -71,7 +71,6 @@ if (!($env:ChocolateyInstall)) {  #if choco is not installed
     choco install git-credential-winstore -y
     choco install poshgit -y
     choco install cmake -y
-    choco install conemu -y
     choco install python -y  
     choco install python2 -y
     # python2 required for gvim
