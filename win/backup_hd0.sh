@@ -1,6 +1,7 @@
 #!/bin/sh
 echo "======================"
-echo "HD0(TM0.sparsebundle): "
+echo "HD0: "
+# echo "HD0(TM0.sparsebundle): "
 date "+%Y-%m-%d:%H:%M:%S"
 
 # skip TimeMachine for now
